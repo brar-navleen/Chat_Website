@@ -15,9 +15,9 @@ export const UserMessage = (prop: { message: string }) => {
             <div>username</div>
             <div>{format(new Date(), 'h:mm b')}</div>
           </div>
-          
-            <ReactMarkdown className="prose" children={prop.message} />
-          
+
+          <ReactMarkdown className="prose" children={prop.message} />
+
         </div>
         {isHovering && <span className="material-symbols-rounded">
           delete

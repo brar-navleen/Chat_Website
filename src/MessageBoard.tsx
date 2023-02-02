@@ -19,13 +19,13 @@ export const MessageBoard = () => {
           <div className="bg-cyan-700 w-1/5"></div>
           <div className="flex flex-1 p-4 flex-col justify-end items-center gap-4">
             <div className="overflow-auto w-full">
-              {userMessagesArray.map((message, i) => <UserMessage message={message}/>)}
+              {userMessagesArray.map((message, i) => <UserMessage message={message} />)}
             </div>
 
             <hr className="border-t border-slate-400 w-full"></hr>
             <div className="w-full border border-slate-100 rounded-md">
               <div className="w-full bg-slate-100 h-10 p-2 flex gap-2"></div>
-              <textarea onChange={(e:any) => setUserInput(e.target.value)} className="p-4 w-full outline-0 whitespace-pre-wrap" placeholder='Enter message'>
+              <textarea onChange={(e: any) => setUserInput(e.target.value)} className="p-4 w-full outline-0 whitespace-pre-wrap" placeholder='Enter message'>
               </textarea>
               <div className="w-full flex items-center justify-end p-2 h-10">
                 <div onClick={() => addUserMessage(userInput)} className={`${userInput ? 'bg-cyan-700' : ''} flex justify-center items-center px-4 py-1 rounded-md hover:cursor-pointer`}>
@@ -37,10 +37,6 @@ export const MessageBoard = () => {
 
               </div>
             </div>
-
-
-
-
           </div>
         </div>
       </div>
