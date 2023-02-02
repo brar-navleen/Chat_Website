@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { format } from 'date-fns'
+import ReactMarkdown from 'react-markdown'
 
 export const UserMessage = (prop: { message: string }) => {
-  
-const [isHovering, setIsHovering] = useState<boolean>(false)
+
+  const [isHovering, setIsHovering] = useState<boolean>(false)
 
   return (
     <>
@@ -14,7 +15,9 @@ const [isHovering, setIsHovering] = useState<boolean>(false)
             <div>username</div>
             <div>{format(new Date(), 'h:mm b')}</div>
           </div>
-          <div>{prop.message}</div>
+          
+            <ReactMarkdown className="prose" children={prop.message} />
+          
         </div>
         {isHovering && <span className="material-symbols-rounded">
           delete
