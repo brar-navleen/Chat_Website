@@ -23,18 +23,27 @@ export const MessageBoard = () => {
             </div>
 
             <hr className="border-t border-slate-400 w-full"></hr>
+
             <div className="w-full border border-slate-100 rounded-md">
               <div className="w-full bg-slate-100 h-10 p-2 flex gap-2"></div>
-              <textarea onChange={(e: any) => setUserInput(e.target.value)} className="p-4 w-full outline-0 whitespace-pre-wrap" placeholder='Enter message'>
+              <textarea
+                value={userInput}
+                onChange={(e: any) => setUserInput(e.target.value)}
+                className="p-4 w-full outline-0 whitespace-pre-wrap"
+                placeholder='Enter message'>
               </textarea>
               <div className="w-full flex items-center justify-end p-2 h-10">
-                <div onClick={() => addUserMessage(userInput)} className={`${userInput ? 'bg-cyan-700' : ''} flex justify-center items-center px-4 py-1 rounded-md hover:cursor-pointer`}>
+                <div onClick={() => {
+                  addUserMessage(userInput)
+                  setUserInput(prev => prev = '')
+                }
+                }
+                  className={`${userInput ? 'bg-cyan-700' : ''} flex justify-center items-center px-4 py-1 rounded-md hover:cursor-pointer`}>
                   <span
                     className="material-symbols-rounded text-slate-200" >
                     send
                   </span>
                 </div>
-
               </div>
             </div>
           </div>
