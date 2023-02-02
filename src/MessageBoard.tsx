@@ -11,6 +11,12 @@ export const MessageBoard = () => {
     }
   }
 
+  const deleteMessage = (i: number) => {
+    setUserMessagesArray(prev => {
+      return prev.slice(0, i).concat(prev.slice(i + 1))
+    })
+  }
+
   return (
     <>
       <div className="h-screen" >
@@ -19,7 +25,7 @@ export const MessageBoard = () => {
           <div className="bg-cyan-700 w-1/5"></div>
           <div className="flex flex-1 p-4 flex-col justify-end items-center gap-4">
             <div className="overflow-auto w-full">
-              {userMessagesArray.map((message, i) => <UserMessage message={message} />)}
+              {userMessagesArray.map((message, i) => <UserMessage key={i} message={message} deleteMessage={() => deleteMessage(i)} />)}
             </div>
 
             <hr className="border-t border-slate-400 w-full"></hr>

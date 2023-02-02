@@ -2,10 +2,11 @@ import { useState } from "react"
 import { format } from 'date-fns'
 import ReactMarkdown from 'react-markdown'
 
-export const UserMessage = (prop: { message: string }) => {
+export const UserMessage = (prop: { message: string, deleteMessage: () => any }) => {
 
   const [isHovering, setIsHovering] = useState<boolean>(false)
-
+  
+ console.log(prop.message, prop.deleteMessage)
   return (
     <>
       <div onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} className="w-full justify-between items-center flex border-b border-slate-200 hover:bg-slate-100 p-2 rounded-md">
@@ -19,7 +20,7 @@ export const UserMessage = (prop: { message: string }) => {
           <ReactMarkdown className="prose" children={prop.message} />
 
         </div>
-        {isHovering && <span className="material-symbols-rounded">
+        {isHovering && <span onClick={() => prop.deleteMessage()} className="material-symbols-rounded hover:cursor-pointer hover:text-red-600">
           delete
         </span>}
       </div>
