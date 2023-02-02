@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { format } from 'date-fns'
+import { UserMessage } from "./UserMessage"
 
 export const MessageBoard = () => {
   const [userInput, setUserInput] = useState<string>('')
   const [userMessagesArray, setUserMessagesArray] = useState<string[]>([])
+  
 
   const addUserMessage = (userInput: string) => {
     if (userInput) {
@@ -19,14 +21,7 @@ export const MessageBoard = () => {
           <div className="bg-cyan-700 w-1/5"></div>
           <div className="flex flex-1 p-4 flex-col justify-end items-center gap-4">
             <div className="overflow-auto w-full">
-              {userMessagesArray.map((message, i) => <div key={i} className="w-full border-b border-slate-200 hover:bg-slate-100 p-2 rounded-md">
-                <div className="flex gap-4">
-                  <div>usericon</div>
-                  <div>username</div>
-                  <div>{format(new Date(), 'h:mm b')}</div>
-                </div>
-                <div>{message}</div>
-              </div>)}
+              {userMessagesArray.map((message, i) => <UserMessage message={message}/>)}
             </div>
 
             <hr className="border-t border-slate-400 w-full"></hr>
