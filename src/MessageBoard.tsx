@@ -1,13 +1,21 @@
 import { useState } from "react"
+import { userEnteredMessageDetails } from "./types"
 import { UserMessage } from "./UserMessage"
+import { format } from 'date-fns'
 
 export const MessageBoard = () => {
   const [userInput, setUserInput] = useState<string>('')
-  const [userMessagesArray, setUserMessagesArray] = useState<string[]>([])
+  const [userMessagesArray, setUserMessagesArray] = useState<userEnteredMessageDetails[]>([])
 
   const addUserMessage = (userInput: string) => {
     if (userInput) {
-      setUserMessagesArray(prev => prev.concat(userInput))
+      
+      setUserMessagesArray(prev => prev.concat(
+        {
+          userMessages: userInput,
+          timestamp: format(new Date(), 'h:mm b' )
+        }
+      ))
     }
   }
 
