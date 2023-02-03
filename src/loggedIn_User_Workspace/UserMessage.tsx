@@ -1,7 +1,7 @@
 import { useState } from "react"
 import ReactMarkdown from 'react-markdown'
 import MarkdownIt from 'markdown-it';
-import { userEnteredMessageDetails } from "./types"
+import { userEnteredMessageDetails } from "../types"
 
 export const UserMessage = (prop: { message: userEnteredMessageDetails, deleteMessage: () => any }) => {
 

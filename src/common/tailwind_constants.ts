@@ -1,0 +1,1 @@
+export const buttonShadowEffect = 'shadow-[4px_4px_0px_0px_#155e75] hover:mt-0.5 hover:-mb-0.5 hover:ml-0.5 hover:-mr-0.5 hover:shadow-[2px_2px_0px_0px_#155e75] active:mt-1 active:-mb-1 active:ml-1 active:-mr-1 active:shadow-none'

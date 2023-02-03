@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { userEnteredMessageDetails } from "./types"
+import { userEnteredMessageDetails } from "../types"
 import { UserMessage } from "./UserMessage"
 import { format } from 'date-fns'
 import MarkdownIt from 'markdown-it';
