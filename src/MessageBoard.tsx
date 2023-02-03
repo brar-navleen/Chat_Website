@@ -49,7 +49,7 @@ export const MessageBoard = () => {
 
               <MdEditor
                 style={{ height: '100px' }} value={userInput}
-                onChange={({ text }) => setUserInput(text)}
+                onChange={(e) => setUserInput(e.text)}
                 placeholder='Enter message'
                 renderHTML={text => mdParser.render(text)}
               />
