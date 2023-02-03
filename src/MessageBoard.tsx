@@ -30,6 +30,8 @@ export const MessageBoard = () => {
     })
   }
 
+
+
   return (
     <>
       <div className="h-screen" >
@@ -44,22 +46,15 @@ export const MessageBoard = () => {
             <hr className="border-t border-slate-400 w-full"></hr>
 
             <div className="w-full border border-slate-100 rounded-md">
-              <div className="w-full bg-slate-100 h-10 p-2 flex gap-2"></div>
 
-              <MdEditor style={{ height: '500px' }} 
-             
-              renderHTML={text => mdParser.render(text)} />
+              <MdEditor
+                style={{ height: '100px' }} value={userInput}
+                onChange={({ text }) => setUserInput(text)}
+                placeholder='Enter message'
+                renderHTML={text => mdParser.render(text)}
+              />
 
-              
-
-
-              <textarea
-                value={userInput}
-                onChange={(e: any) => setUserInput(e.target.value)}
-                className="p-4 w-full outline-0 whitespace-pre-wrap"
-                placeholder='Enter message'>
-              </textarea>
-              <div className="w-full flex items-center justify-end p-2 h-10">
+              <div className="w-full flex bg-[#f5f5f5] items-center justify-end p-2 h-9 border-x border-b border-[#e0e0e0]">
                 <div onClick={() => {
                   addUserMessage(userInput)
                   setUserInput(prev => prev = '')
