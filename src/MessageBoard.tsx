@@ -2,18 +2,23 @@ import { useState } from "react"
 import { userEnteredMessageDetails } from "./types"
 import { UserMessage } from "./UserMessage"
 import { format } from 'date-fns'
+import MarkdownIt from 'markdown-it';
+import MdEditor from 'react-markdown-editor-lite';
+import 'react-markdown-editor-lite/lib/index.css'
 
 export const MessageBoard = () => {
   const [userInput, setUserInput] = useState<string>('')
   const [userMessagesArray, setUserMessagesArray] = useState<userEnteredMessageDetails[]>([])
 
+  const mdParser = new MarkdownIt();
+
   const addUserMessage = (userInput: string) => {
     if (userInput) {
-      
+
       setUserMessagesArray(prev => prev.concat(
         {
           userMessages: userInput,
-          timestamp: format(new Date(), 'h:mm b' )
+          timestamp: format(new Date(), 'h:mm b')
         }
       ))
     }
@@ -40,6 +45,14 @@ export const MessageBoard = () => {
 
             <div className="w-full border border-slate-100 rounded-md">
               <div className="w-full bg-slate-100 h-10 p-2 flex gap-2"></div>
+
+              <MdEditor style={{ height: '500px' }} 
+             
+              renderHTML={text => mdParser.render(text)} />
+
+              
+
+
               <textarea
                 value={userInput}
                 onChange={(e: any) => setUserInput(e.target.value)}
