@@ -1,16 +1,20 @@
 import { useState } from "react"
 import { buttonShadowEffect } from "../common/tailwind_constants"
-export const SignUp = (prop: { onNext: () => any }) => {
+import {z} from 'zod'
+
+const emailSchema = z.string().email()
+
+export const SignUp = (prop: { onNext: (userEmail:string) => any }) => {
   const [userEmail, setUserEmail] = useState('')
   const [invalidEmail, setInvalidEmail] = useState(false)
 
   const isValidUser = () => {
-    if (userEmail === '') {
-      setInvalidEmail(true)
+    if (emailSchema.safeParse(userEmail).success) {
+      setInvalidEmail(false)
+      prop.onNext(userEmail)
     }
     else {
-      setInvalidEmail(false)
-      prop.onNext()
+      setInvalidEmail(true)
     }
   }
 
@@ -24,7 +28,7 @@ export const SignUp = (prop: { onNext: () => any }) => {
           {invalidEmail && <div className="flex items-center gap-2 text-red-600">
             <span className="material-symbols-rounded">
               warning
-            </span>Please enter valid e-mail address</div>}
+            </span>Please enter a valid e-mail address</div>}
         </div>
         {invalidEmail && <button onClick={() => isValidUser()} className={`${buttonShadowEffect} w-2/6 bg-cyan-600 px-6 py-3 rounded-md text-white font-bold`}>Continue</button>}
         {!invalidEmail && <button onClick={() => isValidUser()} className={`${buttonShadowEffect} w-2/6 bg-cyan-600 px-6 py-3 rounded-md text-white font-bold`}>Continue</button>}
