@@ -3,13 +3,16 @@ import { buttonShadowEffect } from "../common/tailwind_constants"
 export const SignUp = () => {
   const [userEmail, setUserEmail] = useState('')
   const [invalidEmail, setInvalidEmail] = useState(false)
+  const [userSignedUp, setUserSignedUp] = useState(false)
 
   const isValidUser = () => {
     if (userEmail === '') {
       setInvalidEmail(true)
+      setUserSignedUp(false)
     }
     else {
       setInvalidEmail(false)
+      setUserSignedUp(true)
     }
   }
 
@@ -25,6 +28,7 @@ export const SignUp = () => {
           </span>Please enter valid e-mail address</div>}
         </div>
         <button onClick={() => isValidUser()} className={`${buttonShadowEffect} w-2/6 bg-cyan-600 px-6 py-3 rounded-md text-white font-bold`}>Continue</button>
+        {userSignedUp && !invalidEmail && <div>continue</div>}
       </div>
     </>
   )

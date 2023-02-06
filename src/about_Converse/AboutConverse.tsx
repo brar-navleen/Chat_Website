@@ -22,8 +22,9 @@ export const AboutConverse = () => {
                   by relying on Converse.
                 </div>
               </div>
-
-              <button className={`${buttonShadowEffect} w-2/5 bg-white shadow-[4px_4px_0px_0px_#c2c2c2] hover:shadow-[2px_2px_0px_0px_#c2c2c2] px-6 py-3 rounded-md text-black font-bold`}>SIGN IN / SIGN UP</button>
+              <a href= './signUp'>
+                <button className={`${buttonShadowEffect} w-2/5 bg-white shadow-[4px_4px_0px_0px_#c2c2c2] hover:shadow-[2px_2px_0px_0px_#c2c2c2] px-6 py-3 rounded-md text-black font-bold`}>SIGN IN / SIGN UP</button>
+              </a>
               <div>Converse is free to try for as long as you want!</div>
             </div>
 
