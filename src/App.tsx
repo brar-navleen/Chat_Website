@@ -6,7 +6,7 @@ import {
 import { AboutConverse } from './about_Converse/AboutConverse'
 import './App.css'
 import { MessageBoard } from './loggedIn_User_Workspace/MessageBoard'
-import { SignUp } from './signUp/SignUp'
+import { SignUpProcess } from './signUp/SignUpProcess'
 
 export const App = () => {
   return (
@@ -15,7 +15,7 @@ export const App = () => {
         <Route path="/">
           <Route index element={<AboutConverse />} />
           <Route path="MessageBoard" element={<MessageBoard />} />
-          <Route path="SignUp" element={<SignUp/>} />
+          <Route path="SignUp" element={<SignUpProcess/>} />
         </Route>
       </Routes>
     </BrowserRouter>
