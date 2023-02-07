@@ -21,7 +21,7 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
     if ('0123456789'.includes(e.key)) {
       inputRefs[currentInputIndex + 1].current?.focus()
       setUserEnteredCode(prev => {
-        const newPrev= [...prev]
+        const newPrev = [...prev]
         newPrev[currentInputIndex] = e.key
         return newPrev
       })
@@ -33,6 +33,15 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
 
     if (e.key === "ArrowRight") {
       inputRefs[currentInputIndex + 1].current?.focus()
+    }
+
+    if (e.key === "Backspace") {
+      inputRefs[currentInputIndex].current?.focus()
+      setUserEnteredCode(prev => {
+        const newPrev = [...prev]
+        newPrev[currentInputIndex] = ''
+        return newPrev
+      })
     }
   }
 
