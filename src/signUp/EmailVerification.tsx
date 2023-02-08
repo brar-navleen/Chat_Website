@@ -78,7 +78,6 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
             <input value={userEnteredCode[3] || ''} maxLength={1} ref={inputRefs[3]} onChange={() => { }} onKeyDown={(e) => checkPress(e, 3)} className="p-4 h-32 w-32 border border-black text-center"></input>
             <input value={userEnteredCode[4] || ''} maxLength={1} ref={inputRefs[4]} onChange={() => { }} onKeyDown={(e) => checkPress(e, 4)} className="p-4 h-32 w-32 border-y border-black text-center"></input>
             <input value={userEnteredCode[5] || ''} maxLength={1} ref={inputRefs[5]} onChange={() => { }} onKeyDown={() => window.location.href = './MessageBoard'} className="p-4 h-32 w-32 border border-black text-center"></input>
-            
           </div>
         </div>
       </div>
