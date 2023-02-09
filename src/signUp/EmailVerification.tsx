@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MessageBoard } from "../loggedIn_User_Workspace/MessageBoard";
+import { useAsyncCallback } from 'react-async-hook';
 
 export const Emailverification = (prop: { userEmailAddress: string }) => {
 
@@ -16,21 +17,27 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
     useRef<HTMLInputElement>(null)
   ]
 
+  const validatingCode = async () => {
+    await new Promise((resolve, reject) => setTimeout(resolve, 5000))
+  }
 
+  const query = useAsyncCallback(validatingCode);
+  console.log(query)
 
-  const checkPress = (e: React.KeyboardEvent<HTMLInputElement>, currentInputIndex: number) => {
+  const checkPress = (e: React.KeyboardEvent<HTMLInputElement>, currentInputIndex: number, islastCodeNumber?: boolean) => {
     if ('0123456789'.includes(e.key)) {
-      inputRefs[currentInputIndex + 1].current?.focus()
+      if (islastCodeNumber) {
+        query.execute()
+      } else {
+        inputRefs[currentInputIndex + 1]?.current?.focus()
+      }
+
       setUserEnteredCode(prev => {
         const newPrev = [...prev]
         newPrev[currentInputIndex] = e.key
         return newPrev
       })
-      cursorAtEnd(inputRefs[currentInputIndex + 1].current)
-
-      if (userEnteredCode.length === 6) {
-        console.log("next page")
-      }
+      cursorAtEnd(inputRefs[currentInputIndex + 1]?.current)
     }
 
     if (e.key === "ArrowLeft") {
@@ -53,6 +60,15 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
       cursorAtEnd(inputRefs[currentInputIndex].current)
     }
   }
+
+  useEffect(() => {
+    console.log('test')
+    if (query.status === 'success') {
+      console.log("next page")
+      window.location.href = '/MessageBoard'
+    }
+  }
+    , [query.status])
 
   const cursorAtEnd = (inputRef: HTMLInputElement | null) => {
     // const end = inputRef?.value.length || 0
@@ -77,10 +93,17 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
           <div className="flex">
             <input value={userEnteredCode[3] || ''} maxLength={1} ref={inputRefs[3]} onChange={() => { }} onKeyDown={(e) => checkPress(e, 3)} className="p-4 h-32 w-32 border border-black text-center"></input>
             <input value={userEnteredCode[4] || ''} maxLength={1} ref={inputRefs[4]} onChange={() => { }} onKeyDown={(e) => checkPress(e, 4)} className="p-4 h-32 w-32 border-y border-black text-center"></input>
-            <input value={userEnteredCode[5] || ''} maxLength={1} ref={inputRefs[5]} onChange={() => { }} onKeyDown={() => window.location.href = './MessageBoard'} className="p-4 h-32 w-32 border border-black text-center"></input>
+            <input value={userEnteredCode[5] || ''} maxLength={1} ref={inputRefs[5]} onChange={() => { }} onKeyDown={(e) => checkPress(e, 5, true)} className="p-4 h-32 w-32 border border-black text-center"></input>
           </div>
         </div>
+        {query.loading && <div className="font-bold flex justify-center items-center gap-10">
+          <span className="text-xl material-symbols-rounded ">
+            rotate_right
+          </span>
+          <div className="text-lg">Loading</div>
+        </div>}
       </div>
     </>
   )
+
 }
