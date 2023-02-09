@@ -1,17 +1,35 @@
 import { useState } from "react"
 import { buttonShadowEffect } from "../common/tailwind_constants"
-import {z} from 'zod'
+import { z } from 'zod'
+import { useAsync } from "react-async"
+import { useAsyncCallback } from 'react-async-hook';
 
 const emailSchema = z.string().email()
 
-export const SignUp = (prop: { onNext: (userEmail:string) => any }) => {
+async function sendEmailForVerification(...args: any[]) {
+  console.log('test 2', ...args)
+  await new Promise((resolve, reject) => setTimeout(resolve, 1000))
+  console.log('test 3')
+  return 'a'
+}
+
+export const SignUp = (prop: { onNext: (userEmail: string) => any }) => {
   const [userEmail, setUserEmail] = useState('')
   const [invalidEmail, setInvalidEmail] = useState(false)
 
+ // const query = useAsync({ promiseFn: sendEmailForVerification, playerId: 1 })
+//  console.log(query)
+
+const query = useAsyncCallback(sendEmailForVerification)
+
   const isValidUser = () => {
+    
     if (emailSchema.safeParse(userEmail).success) {
       setInvalidEmail(false)
-      prop.onNext(userEmail)
+      console.log('test')
+      query.execute()
+      //query.run()
+      //prop.onNext(userEmail)    
     }
     else {
       setInvalidEmail(true)
@@ -30,6 +48,7 @@ export const SignUp = (prop: { onNext: (userEmail:string) => any }) => {
               warning
             </span>Please enter a valid e-mail address</div>}
         </div>
+         {query.loading && <div>Pending</div>} 
         {invalidEmail && <button onClick={() => isValidUser()} className={`${buttonShadowEffect} w-2/6 bg-cyan-600 px-6 py-3 rounded-md text-white font-bold`}>Continue</button>}
         {!invalidEmail && <button onClick={() => isValidUser()} className={`${buttonShadowEffect} w-2/6 bg-cyan-600 px-6 py-3 rounded-md text-white font-bold`}>Continue</button>}
       </div>
