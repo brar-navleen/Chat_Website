@@ -7,7 +7,7 @@ const emailSchema = z.string().email()
 
 async function sendEmailForVerification(...args: any[]) {
   console.log('test 2', ...args)
-  await new Promise((resolve, reject) => setTimeout(resolve, 1000))
+  await new Promise((resolve, reject) => setTimeout(resolve, 2000))
   console.log('test 3')
   return 'a'
 }
@@ -48,9 +48,12 @@ export const SignUp = (prop: { onNext: (userEmail: string) => any }) => {
               warning
             </span>Please enter a valid e-mail address</div>}
         </div>
-        {query.loading && <span className="material-symbols-rounded">
-          rotate_right
-        </span>}
+        {query.loading && <div className="font-bold flex justify-center items-center gap-10">
+          <span className="text-xl material-symbols-rounded ">
+            rotate_right
+          </span>
+          <div className="text-lg">LOADING</div>
+        </div>}
         {query.error && <div>Error</div>}
         {invalidEmail && <button onClick={() => isValidUser()} className={`${buttonShadowEffect} w-2/6 bg-cyan-600 px-6 py-3 rounded-md text-white font-bold`}>Continue</button>}
         {!invalidEmail && <button onClick={() => isValidUser()} className={`${buttonShadowEffect} w-2/6 bg-cyan-600 px-6 py-3 rounded-md text-white font-bold`}>Continue</button>}
