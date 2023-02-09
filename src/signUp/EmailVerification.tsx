@@ -66,9 +66,7 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
           newPrev[currentInputIndex] = ''
           return newPrev
         })
-
       }
-
       cursorAtEnd(inputRefs[currentInputIndex].current)
     }
   }
