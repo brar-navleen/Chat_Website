@@ -51,12 +51,24 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
     }
 
     if (e.key === "Backspace") {
-      inputRefs[currentInputIndex].current?.focus()
-      setUserEnteredCode(prev => {
-        const newPrev = [...prev]
-        newPrev[currentInputIndex] = ''
-        return newPrev
-      })
+      if (inputRefs[currentInputIndex].current?.value === '') {
+        inputRefs[currentInputIndex - 1].current?.focus()
+        setUserEnteredCode(prev => {
+          const newPrev = [...prev]
+          newPrev[currentInputIndex - 1] = ''
+          return newPrev
+        })
+      }
+      else {
+        inputRefs[currentInputIndex].current?.focus()
+        setUserEnteredCode(prev => {
+          const newPrev = [...prev]
+          newPrev[currentInputIndex] = ''
+          return newPrev
+        })
+
+      }
+
       cursorAtEnd(inputRefs[currentInputIndex].current)
     }
   }
