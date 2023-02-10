@@ -93,8 +93,6 @@ export const MessageBoard = () => {
     setDisplayDirectMessages(prev => !prev)
   }
 
-
-
   return (
     <>
       {query.loading && <div className="h-screen flex flex-col justify-center items-center" >
@@ -116,9 +114,9 @@ export const MessageBoard = () => {
                   <span onClick={() => showChannels()} className={`material-symbols-rounded ${displayChannels ? '' : 'transform -rotate-90'}`}>
                     arrow_drop_down
                   </span>
-                  <div>CHANNELS: </div>
+                  <div>CHANNELS</div>
                 </div>
-                {query.result.displayChannels.map((channel, i) => <div key={i}>
+                {displayChannels && query.result.displayChannels.map((channel, i) => <div key={i}>
                   {channel.name}
                 </div>
                 )}
@@ -129,9 +127,9 @@ export const MessageBoard = () => {
                   <span onClick={() => showDirectMessages()} className={`material-symbols-rounded ${displayDirectMessages ? '' : 'transform -rotate-90'}`}>
                     arrow_drop_down
                   </span>
-                  <div>DIRECT MESSAGES: </div>
+                  <div>DIRECT MESSAGES</div>
                 </div>
-                {query.result.listOfPeopleDirectMsgIsSentTo.map((obj, i) => <div key={i} className="flex gap-2">
+                {displayDirectMessages && query.result.listOfPeopleDirectMsgIsSentTo.map((obj, i) => <div key={i} className="flex gap-2">
                   {obj.usersInvolved.map((user, i) => user.name).join(', ')}
                 </div>)
                 }
