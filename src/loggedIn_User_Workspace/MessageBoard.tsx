@@ -1,16 +1,36 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { userEnteredMessageDetails } from "../types"
+import { WorkspaceUserDetails } from "../types"
 import { UserMessage } from "./UserMessage"
 import { format } from 'date-fns'
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
+import MarkdownIt from 'markdown-it'
+import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
+import { useAsyncCallback } from 'react-async-hook'
 
 export const MessageBoard = () => {
   const [userInput, setUserInput] = useState<string>('')
   const [userMessagesArray, setUserMessagesArray] = useState<userEnteredMessageDetails[]>([])
 
   const mdParser = new MarkdownIt();
+
+  const getUserDetails = async () => {
+    await new Promise((resolve, reject) => setTimeout(resolve, 5000))
+    const workspaceDetails: WorkspaceUserDetails = {
+      displayName: "Aman",
+      displayChannels: [
+        { name: "general" },
+        { name: "random" },
+        { name: "project" }
+      ]
+    }
+    console.log(workspaceDetails)
+    return workspaceDetails
+  }
+
+
+
+  const query = useAsyncCallback(getUserDetails)
 
   const addUserMessage = (userInput: string) => {
     if (userInput) {
@@ -30,23 +50,55 @@ export const MessageBoard = () => {
     })
   }
 
+  useEffect(() => {
+    query.execute()
+  }, []
+  )
+
+  useEffect(() => {
+    if (query.status === "success") {
+      console.log("details")
+    }
+  }, [query.status])
+
 
 
   return (
     <>
-      <div className="h-screen" >
+      {query.loading && <div className="h-screen flex flex-col justify-center items-center" >
+        <div className="font-bold flex  gap-10">
+          <span className="text-2xl material-symbols-rounded ">
+            rotate_right
+          </span>
+          <div className="text-3xl">Loading</div>
+        </div>
+      </div>}
+      {!query.loading && <div className="h-screen">
         <div className="bg-cyan-800 h-12"></div>
         <div className="flex h-full">
-          <div className="bg-cyan-700 w-1/5"></div>
+          <div className="bg-cyan-700 w-1/5">
+            {query.result && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
+              <div>{query.result.displayName}</div>
+              <div>
+                <div>CHANNELS: </div>
+                {query.result.displayChannels.map((channel, i) => <div key={i}>
+                  {channel.name}
+                </div>
+                )}
+              </div>
+            </div>}
+
+          </div>
+
           <div className="flex flex-1 p-4 flex-col justify-end items-center gap-4">
             <div className="overflow-auto w-full">
+
               {userMessagesArray.map((message, i) => <UserMessage key={i} message={message} deleteMessage={() => deleteMessage(i)} />)}
             </div>
 
             <hr className="border-t border-slate-400 w-full"></hr>
 
             <div className="w-full border border-slate-100 rounded-md">
-
               <MdEditor
                 style={{ height: '100px' }} value={userInput}
                 onChange={(e) => setUserInput(e.text)}
@@ -70,7 +122,8 @@ export const MessageBoard = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
+
     </>
   )
 }
