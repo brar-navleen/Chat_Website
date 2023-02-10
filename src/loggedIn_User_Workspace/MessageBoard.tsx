@@ -104,11 +104,13 @@ export const MessageBoard = () => {
         </div>
       </div>}
       {!query.loading && <div className="h-screen">
-        <div className="bg-cyan-800 h-12"></div>
+        <div className="bg-cyan-800 h-12 flex justify-end p-4 items-center text-white">
+          <div>{query.result && query.result.displayName}</div>
+        </div>
         <div className="flex h-full">
           <div className="bg-cyan-700 w-1/5">
             {query.result && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
-              <div>{query.result.displayName}</div>
+
               <div>
                 <div className="flex gap-2 items-center">
                   <span onClick={() => showChannels()} className={`material-symbols-rounded ${displayChannels ? '' : 'transform -rotate-90'}`}>
