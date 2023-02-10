@@ -11,24 +11,48 @@ import { useAsyncCallback } from 'react-async-hook'
 export const MessageBoard = () => {
   const [userInput, setUserInput] = useState<string>('')
   const [userMessagesArray, setUserMessagesArray] = useState<userEnteredMessageDetails[]>([])
+  const [displayChannels, setDisplayChannels] = useState<boolean>(false)
+  const [displayDirectMessages, setDisplayDirectMessages] = useState<boolean>(false)
 
   const mdParser = new MarkdownIt();
 
   const getUserDetails = async () => {
-    await new Promise((resolve, reject) => setTimeout(resolve, 5000))
+    await new Promise((resolve, reject) => setTimeout(resolve, 2000))
     const workspaceDetails: WorkspaceUserDetails = {
       displayName: "Aman",
       displayChannels: [
         { name: "general" },
         { name: "random" },
         { name: "project" }
+      ],
+      listOfPeopleDirectMsgIsSentTo: [
+        {
+          id: 1,
+          usersInvolved: [
+            {
+              id: 1,
+              name: 'ram'
+            },
+            {
+              id: 2,
+              name: 'sham'
+            }
+          ]
+        },
+        {
+          id: 2,
+          usersInvolved: [
+            {
+              id: 1,
+              name: 'Raj'
+            },
+          ]
+        }
       ]
     }
     console.log(workspaceDetails)
     return workspaceDetails
   }
-
-
 
   const query = useAsyncCallback(getUserDetails)
 
@@ -62,6 +86,14 @@ export const MessageBoard = () => {
   }, [query.status])
 
 
+  const showChannels = () => {
+    setDisplayChannels(prev => !prev)
+  }
+  const showDirectMessages = () => {
+    setDisplayDirectMessages(prev => !prev)
+  }
+
+
 
   return (
     <>
@@ -80,12 +112,32 @@ export const MessageBoard = () => {
             {query.result && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
               <div>{query.result.displayName}</div>
               <div>
-                <div>CHANNELS: </div>
+                <div className="flex gap-2 items-center">
+                  <span onClick={() => showChannels()} className={`material-symbols-rounded ${displayChannels ? '' : 'transform -rotate-90'}`}>
+                    arrow_drop_down
+                  </span>
+                  <div>CHANNELS: </div>
+                </div>
                 {query.result.displayChannels.map((channel, i) => <div key={i}>
                   {channel.name}
                 </div>
                 )}
               </div>
+
+              <div>
+                <div className="flex gap-2 items-center">
+                  <span onClick={() => showDirectMessages()} className={`material-symbols-rounded ${displayDirectMessages ? '' : 'transform -rotate-90'}`}>
+                    arrow_drop_down
+                  </span>
+                  <div>DIRECT MESSAGES: </div>
+                </div>
+                {query.result.listOfPeopleDirectMsgIsSentTo.map((obj, i) => <div key={i} className="flex gap-2">
+                  {obj.usersInvolved.map((user, i) => user.name).join(', ')}
+                </div>)
+                }
+              </div>
+
+
             </div>}
 
           </div>
