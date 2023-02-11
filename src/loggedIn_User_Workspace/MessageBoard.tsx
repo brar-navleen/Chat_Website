@@ -31,11 +31,11 @@ export const MessageBoard = () => {
           usersInvolved: [
             {
               id: 1,
-              name: 'ram'
+              name: 'Navleen'
             },
             {
               id: 2,
-              name: 'sham'
+              name: 'Satnam'
             }
           ]
         },
@@ -44,7 +44,7 @@ export const MessageBoard = () => {
           usersInvolved: [
             {
               id: 1,
-              name: 'Raj'
+              name: 'Ravleen'
             },
           ]
         }
@@ -112,14 +112,15 @@ export const MessageBoard = () => {
             {query.result && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
 
               <div>
-                <div className="flex gap-2 items-center">
+                <div className="font-semibold">YOUR WORKSPACE</div>
+                <div className="flex gap-2 items-center mt-6">
                   <span onClick={() => showChannels()} className={`material-symbols-rounded ${displayChannels ? '' : 'transform -rotate-90'}`}>
                     arrow_drop_down
                   </span>
                   <div>CHANNELS</div>
                 </div>
-                {displayChannels && query.result.displayChannels.map((channel, i) => <div key={i}>
-                  {channel.name}
+                {displayChannels && query.result.displayChannels.map((channel, i) => <div className="ml-2" key={i}>
+                  # {channel.name}
                 </div>
                 )}
               </div>
@@ -131,7 +132,7 @@ export const MessageBoard = () => {
                   </span>
                   <div>DIRECT MESSAGES</div>
                 </div>
-                {displayDirectMessages && query.result.listOfPeopleDirectMsgIsSentTo.map((obj, i) => <div key={i} className="flex gap-2">
+                {displayDirectMessages && query.result.listOfPeopleDirectMsgIsSentTo.map((obj, i) => <div key={i} className="flex gap-2 ml-2">
                   {obj.usersInvolved.map((user, i) => user.name).join(', ')}
                 </div>)
                 }
