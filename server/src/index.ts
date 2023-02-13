@@ -9,7 +9,7 @@ app.get('/', (_req, _res) => {
 })
 
 app.get('/workspaceDetails', (_req, _res) => {
-  _res.send(
+  _res.send(JSON.stringify(
     {
       displayName: "Aman",
       displayChannels: [
@@ -42,6 +42,7 @@ app.get('/workspaceDetails', (_req, _res) => {
         }
       ]
     }
+  )
 
   )
 })
