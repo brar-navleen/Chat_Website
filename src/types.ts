@@ -12,7 +12,6 @@ export interface UsersInvolved {
   name: string  
 }
 
-
 export interface DirectMessageDetails {
   id: number,
   usersInvolved: UsersInvolved[]
@@ -23,21 +22,3 @@ export interface WorkspaceUserDetails {
   displayChannels: WorkspaceChannelDetails[],
   listOfPeopleDirectMsgIsSentTo: DirectMessageDetails[]
 }
-
-
-// directMessageDetails = [
-//   {
-//     id: 1,
-//     usersInvolved: [
-//       {
-//         id: 1,
-//         name: 'ram'
-//       },
-//       {
-//         id:2,
-//         name: 'sham'
-//       }
-//     ]
-
-//   }
-// ]
