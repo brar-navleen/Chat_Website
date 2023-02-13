@@ -105,7 +105,11 @@ export const MessageBoard = () => {
       </div>}
       {!query.loading && <div className="h-screen">
         <div className="bg-cyan-800 h-12 flex justify-end p-4 items-center text-white">
-          <div>{query.result && query.result.displayName}</div>
+          <div className="relative">
+            <div className="bg-cyan-400 rounded-md px-4 py-0.5 font-bold">{query.result && query.result.displayName}</div>
+            <div className="rounded-full border-4 border-cyan-800 h-5 w-5 bg-emerald-400 absolute -right-1.5 top-3.5"></div>
+          </div>
+
         </div>
         <div className="flex h-full">
           <div className="bg-cyan-700 w-1/5">
