@@ -1,8 +1,11 @@
 import express from 'express'
+import cors from 'cors'
 
 const app: express.Application = express()
 
 const port: number = 3000
+
+app.use(cors());
 
 app.get('/', (_req, _res) => {
   _res.send("TypeScript With Express");
@@ -51,3 +54,6 @@ app.listen(port, () => {
   console.log(`TypeScript with Express
        http://localhost:${port}/`)
 })
+
+
+
