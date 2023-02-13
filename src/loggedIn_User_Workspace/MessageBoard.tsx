@@ -96,7 +96,7 @@ export const MessageBoard = () => {
   return (
     <>
       {query.loading && <div className="h-screen flex flex-col justify-center items-center" >
-        <div className="font-bold flex  gap-10">
+        <div className="font-bold flex gap-10">
           <span className="text-2xl material-symbols-rounded ">
             rotate_right
           </span>
@@ -114,29 +114,28 @@ export const MessageBoard = () => {
         <div className="flex h-full">
           <div className="bg-cyan-700 w-1/5">
             {query.result && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
-
               <div>
                 <div className="font-semibold">YOUR WORKSPACE</div>
-                <div className="flex gap-2 items-center mt-6">
-                  <span onClick={() => showChannels()} className={`material-symbols-rounded ${displayChannels ? '' : 'transform -rotate-90'}`}>
+                <div className="flex gap-1 items-center mt-6">
+                  <span onClick={() => showChannels()} className={`material-symbols-rounded ${displayChannels ? '' : 'transform -rotate-90'} hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md`}>
                     arrow_drop_down
                   </span>
-                  <div>CHANNELS</div>
+                  <div className="hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">CHANNELS</div>
                 </div>
-                {displayChannels && query.result.displayChannels.map((channel, i) => <div className="ml-2" key={i}>
+                {displayChannels && query.result.displayChannels.map((channel, i) => <div className="ml-2 px-1.5 py-0.5 hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md" key={i}>
                   # {channel.name}
                 </div>
                 )}
               </div>
 
               <div>
-                <div className="flex gap-2 items-center">
-                  <span onClick={() => showDirectMessages()} className={`material-symbols-rounded ${displayDirectMessages ? '' : 'transform -rotate-90'}`}>
+                <div className="flex gap-1 items-center">
+                  <span onClick={() => showDirectMessages()} className={`material-symbols-rounded ${displayDirectMessages ? '' : 'transform -rotate-90'} hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md`}>
                     arrow_drop_down
                   </span>
-                  <div>DIRECT MESSAGES</div>
+                  <div className="hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">DIRECT MESSAGES</div>
                 </div>
-                {displayDirectMessages && query.result.listOfPeopleDirectMsgIsSentTo.map((obj, i) => <div key={i} className="flex gap-2 ml-2">
+                {displayDirectMessages && query.result.listOfPeopleDirectMsgIsSentTo.map((obj, i) => <div key={i} className="flex gap-2 ml-2 px-1.5 py-0.5 hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md">
                   {obj.usersInvolved.map((user, i) => user.name).join(', ')}
                 </div>)
                 }
