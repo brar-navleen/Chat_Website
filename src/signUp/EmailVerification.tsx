@@ -7,7 +7,6 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
   const [userEnteredCode, setUserEnteredCode] = useState<string[]>([])
   console.log(userEnteredCode)
 
-
   const inputRefs = [
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
@@ -18,7 +17,10 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
   ]
 
   const validatingCode = async () => {
-    await new Promise((resolve, reject) => setTimeout(resolve, 5000))
+    const response =  await fetch("http://localhost:3000/codeForValidatingUser")
+    const result = await response.json()
+    return result 
+    //await new Promise((resolve, reject) => setTimeout(resolve, 5000))
   }
 
   const query = useAsyncCallback(validatingCode);

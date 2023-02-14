@@ -46,8 +46,13 @@ app.get('/workspaceDetails', (_req, _res) => {
       ]
     }
   )
-
   )
+})
+
+app.get('/CodeForvalidatingUser', (_req, _res) => {
+  _res.send(JSON.stringify({
+    success: true
+  }))
 })
 
 app.listen(port, () => {
