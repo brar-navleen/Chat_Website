@@ -8,6 +8,12 @@ import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
 import { useAsyncCallback } from 'react-async-hook'
 
+const getUserDetails = async () => {
+  const response = await fetch("http://localhost:3000/workspaceDetails")
+  const result = await response.json()
+  return result as WorkspaceUserDetails
+}
+
 export const MessageBoard = () => {
   const [userInput, setUserInput] = useState<string>('')
   const [userMessagesArray, setUserMessagesArray] = useState<userEnteredMessageDetails[]>([])
@@ -17,53 +23,8 @@ export const MessageBoard = () => {
 
   const mdParser = new MarkdownIt();
 
-  const getDetails = async () => {
-    const response = await fetch("http://localhost:3000/workspaceDetails")
-    const result = await response.json()
-    console.log(result)
-  }
-
-  getDetails()
-
-  const getUserDetails = async () => {
-    await new Promise((resolve, reject) => setTimeout(resolve, 2000))
-    const workspaceDetails: WorkspaceUserDetails = {
-      displayName: "Aman",
-      displayChannels: [
-        { name: "general" },
-        { name: "random" },
-        { name: "project" }
-      ],
-      listOfPeopleDirectMsgIsSentTo: [
-        {
-          id: 1,
-          usersInvolved: [
-            {
-              id: 1,
-              name: 'Navleen'
-            },
-            {
-              id: 2,
-              name: 'Satnam'
-            }
-          ]
-        },
-        {
-          id: 2,
-          usersInvolved: [
-            {
-              id: 1,
-              name: 'Ravleen'
-            },
-          ]
-        }
-      ]
-    }
-    console.log(workspaceDetails)
-    return workspaceDetails
-  }
-
   const query = useAsyncCallback(getUserDetails)
+  query.result
 
   const addUserMessage = (userInput: string) => {
     if (userInput) {
