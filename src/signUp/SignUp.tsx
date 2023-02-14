@@ -5,18 +5,21 @@ import { useAsyncCallback } from 'react-async-hook';
 
 const emailSchema = z.string().email()
 
-async function sendEmailForVerification(...args: any[]) {
-  console.log('test 2', ...args)
-  await new Promise((resolve, reject) => setTimeout(resolve, 2000))
-  console.log('test 3')
-  return 'a'
+async function userLogInEmailAddress(...args: any[]) {
+  const response =  await fetch("http://localhost:3000/userEmailAddress")
+  const result = await response.json()
+  return result 
+ // console.log('test 2', ...args)
+  //await new Promise((resolve, reject) => setTimeout(resolve, 2000))
+ // console.log('test 3')
+  //return 'a'
 }
 
 export const SignUp = (prop: { onNext: (userEmail: string) => any }) => {
   const [userEmail, setUserEmail] = useState('')
   const [invalidEmail, setInvalidEmail] = useState(false)
 
-  const query = useAsyncCallback(sendEmailForVerification)
+  const query = useAsyncCallback(userLogInEmailAddress)
 
   const isValidUser = () => {
 

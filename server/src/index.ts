@@ -7,10 +7,6 @@ const port: number = 3000
 
 app.use(cors());
 
-app.get('/', (_req, _res) => {
-  _res.send("TypeScript With Express");
-})
-
 app.get('/workspaceDetails', (_req, _res) => {
   _res.send(JSON.stringify(
     {
@@ -50,6 +46,12 @@ app.get('/workspaceDetails', (_req, _res) => {
 })
 
 app.get('/CodeForvalidatingUser', (_req, _res) => {
+  _res.send(JSON.stringify({
+    success: true
+  }))
+})
+
+app.get('/userEmailAddress', (_req, _res) => {
   _res.send(JSON.stringify({
     success: true
   }))
