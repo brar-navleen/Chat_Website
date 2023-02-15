@@ -35,10 +35,10 @@ export const SignUp = (prop: { onNext: (userEmail: string) => any }) => {
   }
 
   useEffect(() => {
-    if (query.result) {
+    if (query.status === "success") {
       prop.onNext(userEmail)
     }
-  }, [query.result])
+  }, [query.status])
 
   return (
     <>

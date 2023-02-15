@@ -56,10 +56,19 @@ app.get('/workspaceDetails', (_req, _res) => {
   )
 })
 
-app.get('/CodeForvalidatingUser', (_req, _res) => {
-  _res.send(JSON.stringify({
-    success: true
-  }))
+app.post('/codeForvalidatingUser', (_req, _res) => {
+  const { verificationCode, userEmail } = _req.body
+  console.log(_req.body, usersEmailAndVerficationCode)
+  if (verificationCode === usersEmailAndVerficationCode[userEmail]) {
+    _res.send(JSON.stringify({
+      success: true
+    }))
+  }else {
+    _res.send(JSON.stringify({
+      success: false
+    }))
+  }
+
 })
 
 app.post('/userLogInEmailAddresstoSendCode', (_req, _res) => {

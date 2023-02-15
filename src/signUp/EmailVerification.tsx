@@ -1,6 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { useAsyncCallback } from 'react-async-hook';
 
+const validatingCode = async (userEnteredCode: string[], userEmail: string) => {
+  const response = await fetch('http://localhost:3000/codeForValidatingUser', {
+    method: 'POST',
+    body: JSON.stringify({
+      verificationCode: userEnteredCode.join(''),
+      userEmail: userEmail
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+
+  const result = await response.json()
+  return result 
+}
+
 export const Emailverification = (prop: { userEmailAddress: string }) => {
 
   const [userEnteredCode, setUserEnteredCode] = useState<string[]>([])
@@ -14,18 +30,12 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
     useRef<HTMLInputElement>(null)
   ]
 
-  const validatingCode = async () => {
-    const response =  await fetch("http://localhost:3000/codeForValidatingUser")
-    const result = await response.json()
-    return result 
-  }
-
   const query = useAsyncCallback(validatingCode);
 
   const checkPress = (e: React.KeyboardEvent<HTMLInputElement>, currentInputIndex: number, islastCodeNumber?: boolean) => {
     if ('0123456789'.includes(e.key)) {
       if (islastCodeNumber) {
-        query.execute()
+        query.execute(userEnteredCode.concat(e.key), prop.userEmailAddress)
       } else {
         inputRefs[currentInputIndex + 1]?.current?.focus()
       }
@@ -71,7 +81,7 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
 
   useEffect(() => {
     console.log('test')
-    if (query.status === 'success') {
+    if (query.result?.success) {
       console.log("next page")
       window.location.href = '/MessageBoard'
     }
