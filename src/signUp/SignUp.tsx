@@ -15,12 +15,7 @@ const userLogInEmailAddresstoSendCode = async(userEnteredEmail: string) => {
       'Content-Type': 'application/json'
     },
   })
-  // const response =  await fetch("http://localhost:3000/userEmailAddress")
-  // const result = await response.json()
-  // return result 
 }
-
-
 
 export const SignUp = (prop: { onNext: (userEmail: string) => any }) => {
   const [userEmail, setUserEmail] = useState('')
