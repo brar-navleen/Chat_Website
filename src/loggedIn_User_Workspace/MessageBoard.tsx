@@ -14,6 +14,16 @@ const getUserDetails = async () => {
   return result as WorkspaceUserDetails
 }
 
+const sendMessageDetails = async (userInputMessage: string) => {
+  await fetch('/message', {
+    method: 'POST',
+    body: JSON.stringify({
+      content: userInputMessage
+      
+    }),
+  })
+}
+
 export const MessageBoard = () => {
   const [userInput, setUserInput] = useState<string>('')
   const [userMessagesArray, setUserMessagesArray] = useState<userEnteredMessageDetails[]>([])
@@ -24,6 +34,7 @@ export const MessageBoard = () => {
   const mdParser = new MarkdownIt();
 
   const query = useAsyncCallback(getUserDetails)
+  const queryForSendingMessage = useAsyncCallback(sendMessageDetails)
   query.result
 
   const addUserMessage = (userInput: string) => {
@@ -156,7 +167,8 @@ export const MessageBoard = () => {
               />
 
               <div className="w-full flex bg-[#f5f5f5] items-center justify-end p-2 h-9 border-x border-b border-[#e0e0e0]">
-                <div onClick={() => {
+                <div onClick={ () => {
+                  queryForSendingMessage.execute(userInput)
                   addUserMessage(userInput)
                   setUserInput(prev => prev = '')
                 }
