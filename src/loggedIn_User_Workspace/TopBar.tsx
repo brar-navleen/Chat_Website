@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { WorkspaceUserDetails } from "../types"
 
-export const Header = (prop: {queryResult: WorkspaceUserDetails} ) => {
+export const TopBar = (prop: {queryResult: WorkspaceUserDetails} ) => {
   const [userStatus, setUserStatus] = useState<boolean>(false)
 
   useEffect(() => {

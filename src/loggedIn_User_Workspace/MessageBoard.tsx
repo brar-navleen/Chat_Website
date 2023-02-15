@@ -7,7 +7,7 @@ import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
 import { useAsyncCallback } from 'react-async-hook'
-import { Header } from "./header"
+import { TopBar } from "./TopBar"
 
 const getUserDetails = async () => {
   const response = await fetch("http://localhost:3000/workspaceDetails")
@@ -15,34 +15,34 @@ const getUserDetails = async () => {
   return result as WorkspaceUserDetails
 }
 
-const sendMessageDetails = async (userInputMessage: string) => {
-  await fetch('/message', {
+const sendUserMessageDetailsToServer = async (userInputMessage: string) => {
+  await fetch('http://localhost:3000/message', {
     method: 'POST',
     body: JSON.stringify({
-      content: userInputMessage
-
+      message: userInputMessage,
+      channelId:0,
+      userId: 1
     }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
   })
 }
 
 export const MessageBoard = () => {
-  const [userInput, setUserInput] = useState<string>('')
+  const [userInputMsg, setUserInput] = useState<string>('')
   const [userMessagesArray, setUserMessagesArray] = useState<userEnteredMessageDetails[]>([])
   const [displayChannels, setDisplayChannels] = useState<boolean>(false)
   const [displayDirectMessages, setDisplayDirectMessages] = useState<boolean>(false)
-  // const [userStatus, setUserStatus] = useState<boolean>(false)
 
   const mdParser = new MarkdownIt();
 
   const query = useAsyncCallback(getUserDetails)
-  const queryForSendingMessage = useAsyncCallback(sendMessageDetails)
-  query.result
 
-  console.log(query.result)
+  const userMessageDetails = useAsyncCallback(sendUserMessageDetailsToServer)
 
   const addUserMessage = (userInput: string) => {
     if (userInput) {
-
       setUserMessagesArray(prev => prev.concat(
         {
           userMessages: userInput,
@@ -88,7 +88,7 @@ export const MessageBoard = () => {
         </div>
       </div>}
       {query.status === "success" && query.result && <div className="h-screen">
-        <Header queryResult={query.result} />
+        <TopBar queryResult={query.result} />
         <div className="flex h-full">
           <div className="bg-cyan-700 w-1/5">
             {query.result && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
@@ -118,10 +118,7 @@ export const MessageBoard = () => {
                 </div>)
                 }
               </div>
-
-
             </div>}
-
           </div>
 
           <div className="flex flex-1 p-4 flex-col justify-end items-center gap-4">
@@ -134,7 +131,7 @@ export const MessageBoard = () => {
 
             <div className="w-full border border-slate-100 rounded-md">
               <MdEditor
-                style={{ height: '100px' }} value={userInput}
+                style={{ height: '100px' }} value={userInputMsg}
                 onChange={(e) => setUserInput(e.text)}
                 placeholder='Enter message'
                 renderHTML={text => mdParser.render(text)}
@@ -142,12 +139,12 @@ export const MessageBoard = () => {
 
               <div className="w-full flex bg-[#f5f5f5] items-center justify-end p-2 h-9 border-x border-b border-[#e0e0e0]">
                 <div onClick={() => {
-                  queryForSendingMessage.execute(userInput)
-                  addUserMessage(userInput)
+                  userMessageDetails.execute(userInputMsg)
+                  addUserMessage(userInputMsg)
                   setUserInput(prev => prev = '')
                 }
                 }
-                  className={`${userInput ? 'bg-cyan-700' : ''} flex justify-center items-center px-4 py-1 rounded-md hover:cursor-pointer`}>
+                  className={`${userInputMsg ? 'bg-cyan-700' : ''} flex justify-center items-center px-4 py-1 rounded-md hover:cursor-pointer`}>
                   <span
                     className="material-symbols-rounded text-slate-200" >
                     send
