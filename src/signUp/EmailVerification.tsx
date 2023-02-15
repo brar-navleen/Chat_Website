@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { MessageBoard } from "../loggedIn_User_Workspace/MessageBoard";
 import { useAsyncCallback } from 'react-async-hook';
 
 export const Emailverification = (prop: { userEmailAddress: string }) => {
 
   const [userEnteredCode, setUserEnteredCode] = useState<string[]>([])
-  console.log(userEnteredCode)
 
   const inputRefs = [
     useRef<HTMLInputElement>(null),
@@ -20,11 +18,9 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
     const response =  await fetch("http://localhost:3000/codeForValidatingUser")
     const result = await response.json()
     return result 
-    //await new Promise((resolve, reject) => setTimeout(resolve, 5000))
   }
 
   const query = useAsyncCallback(validatingCode);
-  console.log(query)
 
   const checkPress = (e: React.KeyboardEvent<HTMLInputElement>, currentInputIndex: number, islastCodeNumber?: boolean) => {
     if ('0123456789'.includes(e.key)) {

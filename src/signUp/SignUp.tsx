@@ -5,28 +5,34 @@ import { useAsyncCallback } from 'react-async-hook';
 
 const emailSchema = z.string().email()
 
-async function userLogInEmailAddress(...args: any[]) {
-  const response =  await fetch("http://localhost:3000/userEmailAddress")
-  const result = await response.json()
-  return result 
- // console.log('test 2', ...args)
-  //await new Promise((resolve, reject) => setTimeout(resolve, 2000))
- // console.log('test 3')
-  //return 'a'
+const userLogInEmailAddresstoSendCode = async(userEnteredEmail: string) => {
+  await fetch('http://localhost:3000/userLogInEmailAddresstoSendCode', {
+    method: 'POST',
+    body: JSON.stringify({
+      emailAddress: userEnteredEmail
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+  // const response =  await fetch("http://localhost:3000/userEmailAddress")
+  // const result = await response.json()
+  // return result 
 }
+
+
 
 export const SignUp = (prop: { onNext: (userEmail: string) => any }) => {
   const [userEmail, setUserEmail] = useState('')
   const [invalidEmail, setInvalidEmail] = useState(false)
 
-  const query = useAsyncCallback(userLogInEmailAddress)
+  const query = useAsyncCallback(userLogInEmailAddresstoSendCode)
 
   const isValidUser = () => {
 
     if (emailSchema.safeParse(userEmail).success) {
       setInvalidEmail(false)
-      console.log('test')
-      query.execute()
+      query.execute(userEmail)
     }
     else {
       setInvalidEmail(true)
@@ -60,7 +66,6 @@ export const SignUp = (prop: { onNext: (userEmail: string) => any }) => {
         {query.error && <div>Error</div>}
         {invalidEmail && <button onClick={() => isValidUser()} className={`${buttonShadowEffect} w-2/6 bg-cyan-600 px-6 py-3 rounded-md text-white font-bold`}>Continue</button>}
         {!invalidEmail && <button onClick={() => isValidUser()} className={`${buttonShadowEffect} w-2/6 bg-cyan-600 px-6 py-3 rounded-md text-white font-bold`}>Continue</button>}
-
       </div>
     </>
   )
