@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
+import { WorkspaceUserDetails } from "../types"
 
-export const Header = (prop: any) => {
+export const Header = (prop: {queryResult: WorkspaceUserDetails} ) => {
   const [userStatus, setUserStatus] = useState<boolean>(false)
 
   useEffect(() => {

@@ -38,6 +38,8 @@ export const MessageBoard = () => {
   const queryForSendingMessage = useAsyncCallback(sendMessageDetails)
   query.result
 
+  console.log(query.result)
+
   const addUserMessage = (userInput: string) => {
     if (userInput) {
 
@@ -85,7 +87,7 @@ export const MessageBoard = () => {
           <div className="text-3xl">Loading</div>
         </div>
       </div>}
-      {!query.loading && <div className="h-screen">
+      {query.status === "success" && query.result && <div className="h-screen">
         <Header queryResult={query.result} />
         <div className="flex h-full">
           <div className="bg-cyan-700 w-1/5">
