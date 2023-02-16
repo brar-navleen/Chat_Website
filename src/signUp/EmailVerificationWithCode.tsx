@@ -95,8 +95,6 @@ export const EmailverificationWithCode = (prop: { userEmailAddress: string, open
     , [query.status])
 
   const cursorAtEnd = (inputRef: HTMLInputElement | null) => {
-    // const end = inputRef?.value.length || 0
-    // console.log(end, inputRef?.value)
     inputRef?.setSelectionRange(0, 2, 'backward')
   }
 
@@ -127,7 +125,11 @@ export const EmailverificationWithCode = (prop: { userEmailAddress: string, open
           <div className="text-lg">Loading</div>
         </div>}
 
-        {invalidCode && <div>Invalid Code</div>}
+        {invalidCode && <div className="flex items-center justify-center gap-2 text-red-500">
+          <span className="material-symbols-rounded">
+            warning
+          </span>
+          Please enter a valid code</div>}
 
       </div>
     </>
