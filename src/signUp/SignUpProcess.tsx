@@ -20,7 +20,7 @@ export const SignUpProcess = () => {
         userEmailAddress={userEnteredEmail}
       />}
 
-      {page === 2 && <UserProfileDetails />}
+      {page === 2 && <UserProfileDetails userEmailAddress={userEnteredEmail}/>}
     </>
   )
 }

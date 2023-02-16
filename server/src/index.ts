@@ -111,6 +111,21 @@ app.post('/message', async (_req, _res) => {
   _res.json(userMessage)
 })
 
+app.put('/sendUserProfileDetails', async(_req, _res) => {
+  console.log(_req.body)
+  const {firstName, lastName, username, userEmailAddress} = _req.body
+  await prisma.user.update({
+    where: {
+      email: userEmailAddress
+    },
+    data: {
+     firstName: firstName,
+     lastName: lastName,
+     username: username
+    },
+  })
+})
+
 app.listen(port, () => {
   console.log(`TypeScript with Express
        http://localhost:${port}/`)
