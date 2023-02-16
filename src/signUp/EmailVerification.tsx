@@ -14,12 +14,13 @@ const validatingCode = async (userEnteredCode: string[], userEmail: string) => {
   })
 
   const result = await response.json()
-  return result 
+  return result
 }
 
 export const Emailverification = (prop: { userEmailAddress: string }) => {
 
   const [userEnteredCode, setUserEnteredCode] = useState<string[]>([])
+  const [invalidCode, setInvalidCode] = useState<boolean>(false)
 
   const inputRefs = [
     useRef<HTMLInputElement>(null),
@@ -84,6 +85,8 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
     if (query.result?.success) {
       console.log("next page")
       window.location.href = '/MessageBoard'
+    } else if (query.result && !query.result?.success) {
+      setInvalidCode(true)
     }
   }
     , [query.status])
@@ -120,6 +123,9 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
           </span>
           <div className="text-lg">Loading</div>
         </div>}
+
+        {invalidCode && <div>Invalid Code</div>}
+
       </div>
     </>
   )

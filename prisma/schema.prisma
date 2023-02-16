@@ -10,8 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int    @id @default(autoincrement())
+  email     String
+  // firstName String
+  // lastName  String
+  // username  String
+}
+
 model Message {
-  id        Int     @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   message   String
   channelId Int
   userId    Int
