@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { Emailverification } from "./EmailVerification"
-import { SignUp } from "./SignUp"
+import { EmailverificationWithCode } from "./EmailVerificationWithCode"
+import { SignUpUsingEmail } from "./SignUpUsingEmail"
 import { UserProfileDetails } from "./UserProfileDetails"
 
 export const SignUpProcess = () => {
@@ -8,15 +8,15 @@ export const SignUpProcess = () => {
   const [userEnteredEmail, setUserEnteredEmail] = useState('')
   return (
     <>
-      {page === 0 && <SignUp
+      {page === 0 && <SignUpUsingEmail
         onNext={(userEmail) => {
           setPage(prev => prev + 1)
           setUserEnteredEmail(userEmail)
         }
         }
       />}
-      {page === 1 && <Emailverification
-        onNext={() => { setPage(prev => prev + 1) }}
+      {page === 1 && <EmailverificationWithCode
+        openUserProfilePage={() => { setPage(prev => prev + 1) }}
         userEmailAddress={userEnteredEmail}
       />}
 

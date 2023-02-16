@@ -17,7 +17,7 @@ const userLogInEmailAddresstoSendCode = async(userEnteredEmail: string) => {
   })
 }
 
-export const SignUp = (prop: { onNext: (userEmail: string) => any }) => {
+export const SignUpUsingEmail = (prop: { onNext: (userEmail: string) => any }) => {
   const [userEmail, setUserEmail] = useState('')
   const [invalidEmail, setInvalidEmail] = useState(false)
 

@@ -1,22 +1,22 @@
 import { useState } from 'react'
 import { buttonShadowEffect } from '../common/tailwind_constants'
 
-const sendUserProfileDetails = async(firstName: String, lastName: String, username: String, userEmailAddress: String) => {
-    await fetch('http://localhost:3000/sendUserProfileDetails', {
-      method: 'PUT',
-      body: JSON.stringify({
+const sendUserProfileDetails = async (firstName: String, lastName: String, username: String, userEmailAddress: String) => {
+  await fetch('http://localhost:3000/sendUserProfileDetails', {
+    method: 'PUT',
+    body: JSON.stringify({
       firstName: firstName,
       lastName: lastName,
       username: username,
       userEmailAddress: userEmailAddress
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
 }
 
-export const UserProfileDetails = (props: {userEmailAddress:String}) => {
+export const UserProfileDetails = (props: { userEmailAddress: String }) => {
   const [firstname, setFirstName] = useState<String>('')
   const [lastName, setLastName] = useState<String>('')
   const [username, setUsername] = useState<String>('')
@@ -41,7 +41,12 @@ export const UserProfileDetails = (props: {userEmailAddress:String}) => {
             <input onChange={(e) => setUsername(e.target.value)} className="w-full p-3 rounded-md" placeholder="Enter your username"></input>
           </div>
 
-          <button onClick={() => sendUserProfileDetails(firstname, lastName, username, props.userEmailAddress) } className={`${buttonShadowEffect} bg-cyan-600 p-3 rounded-md text-white font-semibold`}>Save and Continue</button>
+          <button onClick={() => {
+            sendUserProfileDetails(firstname, lastName, username, props.userEmailAddress)
+            window.location.href = '/MessageBoard'
+          }
+          }
+            className={`${buttonShadowEffect} bg-cyan-600 p-3 rounded-md text-white font-semibold`}>Save and Continue</button>
         </div>
       </div>
     </>
