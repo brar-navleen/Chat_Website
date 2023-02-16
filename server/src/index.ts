@@ -78,7 +78,7 @@ app.post('/codeForvalidatingUser', async (_req, _res) => {
       })
       _res.status(200).json({
         success: true,
-        inNewUser: true
+        isNewUser: true
       })
     }
   } else {

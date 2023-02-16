@@ -17,7 +17,7 @@ const validatingCode = async (userEnteredCode: string[], userEmail: string) => {
   return result
 }
 
-export const Emailverification = (prop: { userEmailAddress: string }) => {
+export const Emailverification = (prop: { userEmailAddress: string, onNext: () => any }) => {
 
   const [userEnteredCode, setUserEnteredCode] = useState<string[]>([])
   const [invalidCode, setInvalidCode] = useState<boolean>(false)
@@ -81,11 +81,14 @@ export const Emailverification = (prop: { userEmailAddress: string }) => {
   }
 
   useEffect(() => {
-    console.log('test')
-    if (query.result?.success) {
-      console.log("next page")
+    if (query.result?.success && query.result?.isNewUser) {
+      prop.onNext()
+    }
+    else if (query.result?.success) {
       window.location.href = '/MessageBoard'
-    } else if (query.result && !query.result?.success) {
+    }
+
+    else if (query.result && !query.result?.success) {
       setInvalidCode(true)
     }
   }
