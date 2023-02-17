@@ -15,6 +15,7 @@ const validatingCode = async (userEnteredCode: string[], userEmail: string) => {
 
   const result = await response.json()
   return result
+
 }
 
 export const EmailverificationWithCode = (prop: { userEmailAddress: string, openUserProfilePage: () => any }) => {
@@ -81,14 +82,14 @@ export const EmailverificationWithCode = (prop: { userEmailAddress: string, open
   }
 
   useEffect(() => {
-    if (query.result?.success && query.result?.isNewUser) {
-      prop.openUserProfilePage()
-    }
-    else if (query.result?.success) {
-      window.location.href = '/MessageBoard'
-    }
-
-    else if (query.result && !query.result?.success) {
+    if (query.result && query.result?.success) {
+      localStorage.setItem('token', JSON.stringify(query.result?.token))
+      if (query.result?.isNewUser) {
+        prop.openUserProfilePage()
+      } else {
+        window.location.href = '/MessageBoard'
+      }
+    } else {
       setInvalidCode(true)
     }
   }
