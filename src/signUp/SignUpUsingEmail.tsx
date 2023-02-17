@@ -5,7 +5,7 @@ import { useAsyncCallback } from 'react-async-hook';
 
 const emailSchema = z.string().email()
 
-const userLogInEmailAddresstoSendCode = async(userEnteredEmail: string) => {
+const userLogInEmailAddresstoSendCode = async (userEnteredEmail: string) => {
   await fetch('http://localhost:3000/userLogInEmailAddresstoSendCode', {
     method: 'POST',
     body: JSON.stringify({
@@ -47,12 +47,12 @@ export const SignUpUsingEmail = (prop: { onNext: (userEmail: string) => any }) =
         <div className="text-5xl font-bold">Please enter your E-mail address</div>
         <div className="w-2/6">
           <input onChange={(e) => setUserEmail(e.target.value)} onKeyDown={(e) => {
-            if(e.key === "Enter"){
+            if (e.key === "Enter") {
               isValidUser()
             }
           }
-           } 
-           placeholder="name@mail-provider.com" className="w-full px-6 py-3 border border-slate-400 rounded-md"></input>
+          }
+            placeholder="name@mail-provider.com" className="w-full px-6 py-3 border border-slate-400 rounded-md"></input>
           {invalidEmail && <div className="flex items-center gap-2 text-red-600">
             <span className="material-symbols-rounded">
               warning

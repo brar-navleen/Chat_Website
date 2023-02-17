@@ -22,7 +22,7 @@ const sendUserMessageDetailsToServer = async (userInputMessage: string) => {
     method: 'POST',
     body: JSON.stringify({
       message: userInputMessage,
-      channelId:0,
+      channelId: 0,
       userId: 1
     }),
     headers: {
@@ -83,8 +83,8 @@ export const MessageBoard = () => {
         <TopBar userChannelAndDirectMsgDetails={userChannelAndDirectMsgDetails.result} />
         <div className="flex h-full">
           <div className="bg-cyan-700 w-1/5">
-            <UserChannels userChannelAndDirectMsgDetails ={userChannelAndDirectMsgDetails.result}/>
-            <UserDirectMessages userChannelAndDirectMsgDetails = {userChannelAndDirectMsgDetails.result}/>
+            <UserChannels userChannelAndDirectMsgDetails={userChannelAndDirectMsgDetails.result} />
+            <UserDirectMessages userChannelAndDirectMsgDetails={userChannelAndDirectMsgDetails.result} />
           </div>
 
           <div className="flex flex-1 p-4 flex-col justify-end items-center gap-4">
@@ -98,9 +98,17 @@ export const MessageBoard = () => {
             <div className="w-full border border-slate-100 rounded-md">
               <MdEditor
                 style={{ height: '100px' }} value={userInputMsg}
-                onChange={(e) => setUserInput(e.text)}
+                onChange={(e) => {
+                  setUserInput(e.text)
+                  if (e.text[e.text.length - 1] === '\n') {
+                    userMessageDetails.execute(userInputMsg)
+                    addUserMessage(userInputMsg)
+                    setUserInput(prev => prev = '')
+                  }
+                }}
                 placeholder='Enter message'
                 renderHTML={text => mdParser.render(text)}
+
               />
 
               <div className="w-full flex bg-[#f5f5f5] items-center justify-end p-2 h-9 border-x border-b border-[#e0e0e0]">
