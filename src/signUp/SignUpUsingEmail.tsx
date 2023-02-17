@@ -46,7 +46,13 @@ export const SignUpUsingEmail = (prop: { onNext: (userEmail: string) => any }) =
         <div className="text-3xl font-bold">CONVERSE</div>
         <div className="text-5xl font-bold">Please enter your E-mail address</div>
         <div className="w-2/6">
-          <input onChange={(e) => setUserEmail(e.target.value)} placeholder="name@mail-provider.com" className="w-full px-6 py-3 border border-slate-400 rounded-md"></input>
+          <input onChange={(e) => setUserEmail(e.target.value)} onKeyDown={(e) => {
+            if(e.key === "Enter"){
+              isValidUser()
+            }
+          }
+           } 
+           placeholder="name@mail-provider.com" className="w-full px-6 py-3 border border-slate-400 rounded-md"></input>
           {invalidEmail && <div className="flex items-center gap-2 text-red-600">
             <span className="material-symbols-rounded">
               warning
