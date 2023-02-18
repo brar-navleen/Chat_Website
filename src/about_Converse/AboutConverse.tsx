@@ -4,8 +4,27 @@ import conversecommunication from '../assets/conversecommunication.png'
 import flexibleRemoteWorkImage from '../assets/flexibleRemoteWork.png'
 import privatizationImage from '../assets/privatization.jpg'
 import teamImage from '../assets/team.png'
+import { useEffect } from 'react'
+import { useAsyncAbortable, useAsyncCallback } from 'react-async-hook'
+
+const sendJWTTokenToServer = async(token: any) => {
+   await fetch('http://localhost:3000/user', {
+    method: 'GET',
+    headers: {
+      "Authorization" : `Bearer ${token}`
+    }
+   })
+}
 
 export const AboutConverse = () => {
+
+  const sendJWTTokenQuery = useAsyncCallback(sendJWTTokenToServer)
+
+  useEffect(() => {
+  const token = localStorage.getItem('token')
+  sendJWTTokenQuery.execute(token)
+  }, [])
+
   return (
     <>
       <div className="bg-slate-100 text-xl">

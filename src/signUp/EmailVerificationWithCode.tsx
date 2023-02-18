@@ -83,7 +83,7 @@ export const EmailverificationWithCode = (prop: { userEmailAddress: string, open
 
   useEffect(() => {
     if (query.result && query.result?.success) {
-      localStorage.setItem('token', JSON.stringify(query.result?.token))
+      localStorage.setItem('token', query.result?.token)
       if (query.result?.isNewUser) {
         prop.openUserProfilePage()
       } else {

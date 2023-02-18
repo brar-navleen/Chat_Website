@@ -3,6 +3,7 @@ import cors from 'cors'
 import { PrismaClient } from '@prisma/client'
 import bodyParser from 'body-parser'
 import jsonWebToken from 'jsonwebtoken'
+import {expressjwt,  Request as JWTRequest} from 'express-jwt'
 
 const prisma = new PrismaClient()
 
@@ -10,10 +11,11 @@ const app: express.Application = express()
 
 const port: number = 3000
 
-const jwtSecretPicks = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-const jwtSecret = Array(10).fill(0)
-  .map(() => jwtSecretPicks.charAt(Math.round(Math.random() * jwtSecretPicks.length)))
-  .join('')
+// const jwtSecretPicks = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+// const jwtSecret = Array(10).fill(0)
+//   .map(() => jwtSecretPicks.charAt(Math.round(Math.random() * jwtSecretPicks.length)))
+//   .join('')
+const jwtSecret = "abcdef345464"
 console.log(jwtSecret)
 
 app.use(cors())
@@ -65,7 +67,6 @@ app.get('/workspaceDetails', (_req, _res) => {
 
 app.post('/codeForvalidatingUser', async (_req, _res) => {
   const { verificationCode, userEmail } = _req.body
-  console.log(_req.body, usersEmailAndVerficationCode)
   if (verificationCode === usersEmailAndVerficationCode[userEmail]) {
     const userExists = await prisma.user.findMany({
       where: {
@@ -108,7 +109,6 @@ app.post('/userLogInEmailAddresstoSendCode', (_req, _res) => {
 })
 
 app.post('/message', async (_req, _res) => {
-  console.log(_req.body)
   const { message, channelId, userId } = _req.body
   const userMessage = await prisma.message.create({
     data: {
@@ -121,7 +121,6 @@ app.post('/message', async (_req, _res) => {
 })
 
 app.put('/sendUserProfileDetails', async (_req, _res) => {
-  console.log(_req.body)
   const { firstName, lastName, username, userEmailAddress } = _req.body
   await prisma.user.update({
     where: {
@@ -134,6 +133,16 @@ app.put('/sendUserProfileDetails', async (_req, _res) => {
     },
   })
 })
+
+app.get('/user', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
+function (req: JWTRequest, res: express.Response) {
+  console.log(req)
+  console.log(req.auth.userEmail)
+  // const userEmail = req.auth.userEmail
+  // console.log(userEmail)
+  res.sendStatus(200);
+}
+)
 
 app.listen(port, () => {
   console.log(`TypeScript with Express
