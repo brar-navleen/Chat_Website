@@ -1,5 +1,18 @@
 import { useState } from "react"
 import { WorkspaceUserDetails } from "../types"
+import { useAsyncCallback } from 'react-async-hook'
+
+const sendJWTTokenToServer = async(token: any) => {
+  const response = await fetch('http://localhost:3000/channels', {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+  const result = await response.json()
+  console.log({result})
+  return result
+}
 
 export const UserChannels = (prop: { userChannelAndDirectMsgDetails: WorkspaceUserDetails }) => {
 
@@ -8,6 +21,8 @@ export const UserChannels = (prop: { userChannelAndDirectMsgDetails: WorkspaceUs
   const showChannels = () => {
     setDisplayChannels(prev => !prev)
   }
+
+ const sendJWTTokenQuery = useAsyncCallback(sendJWTTokenToServer)
 
   return (
     <>

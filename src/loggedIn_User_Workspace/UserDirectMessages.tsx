@@ -1,7 +1,22 @@
 import { useState } from "react"
 import { WorkspaceUserDetails } from "../types"
+import { useAsyncCallback } from 'react-async-hook'
+
+const sendJWTTokenToServer = async(token: any) => {
+  const response = await fetch('http://localhost:3000/directMessages', {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+  const result = await response.json()
+  console.log({result})
+  return result
+}
 
 export const UserDirectMessages = (prop: {userChannelAndDirectMsgDetails: WorkspaceUserDetails}) => {
+
+  const sendJWTTokenQuery = useAsyncCallback(sendJWTTokenToServer)
 
   const [displayDirectMessages, setDisplayDirectMessages] = useState<boolean>(false)
 
