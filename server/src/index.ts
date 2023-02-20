@@ -16,7 +16,6 @@ const port: number = 3000
 //   .map(() => jwtSecretPicks.charAt(Math.round(Math.random() * jwtSecretPicks.length)))
 //   .join('')
 const jwtSecret = "abcdef345464"
-console.log(jwtSecret)
 
 app.use(cors())
 
@@ -31,11 +30,11 @@ app.get('/workspaceDetails', (_req, _res) => {
   _res.send(JSON.stringify(
     {
       displayName: "Aman",
-      displayChannels: [
-        { name: "general" },
-        { name: "random" },
-        { name: "project" }
-      ],
+      // displayChannels: [
+      //   { name: "general" },
+      //   { name: "random" },
+      //   { name: "project" }
+      // ],
       listOfPeopleDirectMsgIsSentTo: [
         {
           id: 1,
@@ -147,15 +146,26 @@ app.get('/user', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
         success: true,
         username: userDetails[0].firstName
       })
-      return
     } else {
       _res.status(404).json({
         success: false,
       })
-      return
     }
   }
 )
+
+app.get('/channels', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
+  async (_req: JWTRequest, _res: express.Response) => {
+  console.log(_req.body)
+  _res.json({
+    displayChannels: [
+      { name: "general" },
+      { name: "random" },
+      { name: "project" }
+    ],
+  })
+
+  })
 
 app.listen(port, () => {
   console.log(`TypeScript with Express

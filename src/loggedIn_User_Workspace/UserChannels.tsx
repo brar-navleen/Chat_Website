@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { WorkspaceUserDetails } from "../types"
 import { useAsyncCallback } from 'react-async-hook'
 
@@ -14,7 +14,7 @@ const sendJWTTokenToServer = async(token: any) => {
   return result
 }
 
-export const UserChannels = (prop: { userChannelAndDirectMsgDetails: WorkspaceUserDetails }) => {
+export const UserChannels = () => {
 
   const [displayChannels, setDisplayChannels] = useState<boolean>(false)
 
@@ -24,9 +24,17 @@ export const UserChannels = (prop: { userChannelAndDirectMsgDetails: WorkspaceUs
 
  const sendJWTTokenQuery = useAsyncCallback(sendJWTTokenToServer)
 
+ console.log(sendJWTTokenQuery.result?.displayChannels)
+
+ useEffect(() => {
+  const token = localStorage.getItem('token')
+  sendJWTTokenQuery.execute(token)
+}, [])
+
+
   return (
     <>
-      {prop.userChannelAndDirectMsgDetails && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
+      {sendJWTTokenQuery.result?.displayChannels && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
         <div>
           <div className="flex gap-1 items-center mt-6">
             <span onClick={() => showChannels()} className={`material-symbols-rounded ${displayChannels ? '' : 'transform -rotate-90'} hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md`}>
@@ -34,7 +42,7 @@ export const UserChannels = (prop: { userChannelAndDirectMsgDetails: WorkspaceUs
             </span>
             <div className="hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">CHANNELS</div>
           </div>
-          {displayChannels && prop.userChannelAndDirectMsgDetails.displayChannels.map((channel, i) => <div className="ml-2 px-1.5 py-0.5 hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md" key={i}>
+          {displayChannels && sendJWTTokenQuery.result?.displayChannels.map((channel: any, i: any) => <div className="ml-2 px-1.5 py-0.5 hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md" key={i}>
             # {channel.name}
           </div>
           )}

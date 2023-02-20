@@ -15,17 +15,12 @@ const sendJWTTokenToServer = async (token: any) => {
     }
   })
   const result = await response.json()
-  console.log({ result })
   return result
 }
-
-
 
 export const AboutConverse = () => {
 
   const sendJWTTokenQuery = useAsyncCallback(sendJWTTokenToServer)
-
-  console.log(sendJWTTokenQuery.result?.success)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -54,7 +49,7 @@ export const AboutConverse = () => {
               {sendJWTTokenQuery.result?.success &&
                 <div>
                   <div>Welcome Back {sendJWTTokenQuery.result?.username}</div>
-                  <button className={`${buttonShadowEffect} w-2/5 bg-white shadow-[4px_4px_0px_0px_#c2c2c2] hover:shadow-[2px_2px_0px_0px_#c2c2c2] px-6 py-3 rounded-md text-black font-bold`}>Open Chat</button>
+                  <a href='./MessageBoard'><button className={`${buttonShadowEffect} w-2/5 bg-white shadow-[4px_4px_0px_0px_#c2c2c2] hover:shadow-[2px_2px_0px_0px_#c2c2c2] px-6 py-3 rounded-md text-black font-bold`}>Open Chat</button></a>
                 </div>
               }
 
