@@ -35,30 +35,30 @@ app.get('/workspaceDetails', (_req, _res) => {
       //   { name: "random" },
       //   { name: "project" }
       // ],
-      listOfPeopleDirectMsgIsSentTo: [
-        {
-          id: 1,
-          usersInvolved: [
-            {
-              id: 1,
-              name: 'Navleen'
-            },
-            {
-              id: 2,
-              name: 'Satnam'
-            }
-          ]
-        },
-        {
-          id: 2,
-          usersInvolved: [
-            {
-              id: 1,
-              name: 'Ravleen'
-            },
-          ]
-        }
-      ]
+      // listOfPeopleDirectMsgIsSentTo: [
+      //   {
+      //     id: 1,
+      //     usersInvolved: [
+      //       {
+      //         id: 1,
+      //         name: 'Navleen'
+      //       },
+      //       {
+      //         id: 2,
+      //         name: 'Satnam'
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     id: 2,
+      //     usersInvolved: [
+      //       {
+      //         id: 1,
+      //         name: 'Ravleen'
+      //       },
+      //     ]
+      //   }
+      // ]
     }
   )
   )
@@ -156,15 +156,44 @@ app.get('/user', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
 
 app.get('/channels', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
   async (_req: JWTRequest, _res: express.Response) => {
-  console.log(_req.body)
-  _res.json({
-    displayChannels: [
-      { name: "general" },
-      { name: "random" },
-      { name: "project" }
-    ],
+    _res.json({
+      displayChannels: [
+        { name: "general" },
+        { name: "random" },
+        { name: "project" }
+      ],
+    })
   })
 
+app.get('/directMessages', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
+  async (_req: JWTRequest, _res: express.Response) => {
+    console.log(_req.body)
+    _res.json({
+      listOfPeopleDirectMsgIsSentTo: [
+        {
+          id: 1,
+          usersInvolved: [
+            {
+              id: 1,
+              name: 'Navleen'
+            },
+            {
+              id: 2,
+              name: 'Satnam'
+            }
+          ]
+        },
+        {
+          id: 2,
+          usersInvolved: [
+            {
+              id: 1,
+              name: 'Ravleen'
+            },
+          ]
+        }
+      ]
+    })
   })
 
 app.listen(port, () => {
