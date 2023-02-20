@@ -11,11 +11,11 @@ import { TopBar } from "./TopBar"
 import { UserChannels } from "./UserChannels"
 import { UserDirectMessages } from "./UserDirectMessages"
 
-const getUserDetails = async () => {
-  const response = await fetch("http://localhost:3000/workspaceDetails")
-  const result = await response.json()
-  return result as WorkspaceUserDetails
-}
+// const getUserDetails = async () => {
+//   const response = await fetch("http://localhost:3000/workspaceDetails")
+//   const result = await response.json()
+//   return result as WorkspaceUserDetails
+// }
 
 const sendUserMessageDetailsToServer = async (userInputMessage: string) => {
   await fetch('http://localhost:3000/message', {
@@ -37,8 +37,6 @@ export const MessageBoard = () => {
 
   const mdParser = new MarkdownIt();
 
-  const userChannelAndDirectMsgDetails = useAsyncCallback(getUserDetails)
-
   const userMessageDetails = useAsyncCallback(sendUserMessageDetailsToServer)
 
   const addUserMessage = (userInput: string) => {
@@ -58,29 +56,11 @@ export const MessageBoard = () => {
     })
   }
 
-  useEffect(() => {
-    userChannelAndDirectMsgDetails.execute()
-  }, []
-  )
-
-  useEffect(() => {
-    if (userChannelAndDirectMsgDetails.status === "success") {
-      console.log("details")
-    }
-  }, [userChannelAndDirectMsgDetails.status])
-
+  
   return (
     <>
-      {userChannelAndDirectMsgDetails.loading && <div className="h-screen flex flex-col justify-center items-center" >
-        <div className="font-bold flex gap-10">
-          <span className="text-2xl material-symbols-rounded ">
-            rotate_right
-          </span>
-          <div className="text-3xl">Loading</div>
-        </div>
-      </div>}
-      {userChannelAndDirectMsgDetails.status === "success" && userChannelAndDirectMsgDetails.result && <div className="h-screen">
-        <TopBar userChannelAndDirectMsgDetails={userChannelAndDirectMsgDetails.result} />
+      {<div className="h-screen">
+        <TopBar/>
         <div className="flex h-full">
           <div className="bg-cyan-700 w-1/5">
             <UserChannels />

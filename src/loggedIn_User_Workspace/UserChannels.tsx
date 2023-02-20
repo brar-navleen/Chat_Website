@@ -24,13 +24,10 @@ export const UserChannels = () => {
 
  const sendJWTTokenQuery = useAsyncCallback(sendJWTTokenToServer)
 
- console.log(sendJWTTokenQuery.result?.displayChannels)
-
  useEffect(() => {
   const token = localStorage.getItem('token')
   sendJWTTokenQuery.execute(token)
 }, [])
-
 
   return (
     <>

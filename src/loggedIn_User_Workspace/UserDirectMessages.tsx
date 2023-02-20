@@ -23,8 +23,6 @@ export const UserDirectMessages = () => {
 
   const sendJWTTokenQuery = useAsyncCallback(sendJWTTokenToServer)
 
-  console.log(sendJWTTokenQuery.result?.listOfPeopleDirectMsgIsSentTo)
-
   useEffect(() => {
     const token = localStorage.getItem('token')
     sendJWTTokenQuery.execute(token)

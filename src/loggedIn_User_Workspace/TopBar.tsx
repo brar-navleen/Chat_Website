@@ -28,8 +28,6 @@ export const TopBar = ( ) => {
 
   const sendJWTTokenQuery = useAsyncCallback(sendJWTTokenToServer)
 
-  console.log(sendJWTTokenQuery?.result)
-
   useEffect(() => {
     const token = localStorage.getItem('token')
     sendJWTTokenQuery.execute(token)
