@@ -7,22 +7,29 @@ import teamImage from '../assets/team.png'
 import { useEffect } from 'react'
 import { useAsyncAbortable, useAsyncCallback } from 'react-async-hook'
 
-const sendJWTTokenToServer = async(token: any) => {
-   await fetch('http://localhost:3000/user', {
+const sendJWTTokenToServer = async (token: any) => {
+  const response = await fetch('http://localhost:3000/user', {
     method: 'GET',
     headers: {
-      "Authorization" : `Bearer ${token}`
+      "Authorization": `Bearer ${token}`
     }
-   })
+  })
+  const result = await response.json()
+  console.log({result})
+  return result
 }
+
+
 
 export const AboutConverse = () => {
 
   const sendJWTTokenQuery = useAsyncCallback(sendJWTTokenToServer)
 
+  console.log(sendJWTTokenQuery.result?.success)
+
   useEffect(() => {
-  const token = localStorage.getItem('token')
-  sendJWTTokenQuery.execute(token)
+    const token = localStorage.getItem('token')
+    sendJWTTokenQuery.execute(token)
   }, [])
 
   return (
@@ -41,9 +48,16 @@ export const AboutConverse = () => {
                   by relying on Converse.
                 </div>
               </div>
-              <a href= './signUp'>
-                <button className={`${buttonShadowEffect} w-2/5 bg-white shadow-[4px_4px_0px_0px_#c2c2c2] hover:shadow-[2px_2px_0px_0px_#c2c2c2] px-6 py-3 rounded-md text-black font-bold`}>SIGN IN / SIGN UP</button>
-              </a>
+              
+                {!sendJWTTokenQuery.result?.success &&
+                  <a href='./signUp'><button className={`${buttonShadowEffect} w-2/5 bg-white shadow-[4px_4px_0px_0px_#c2c2c2] hover:shadow-[2px_2px_0px_0px_#c2c2c2] px-6 py-3 rounded-md text-black font-bold`}>SIGN IN / SIGN UP</button>  </a>}
+                {sendJWTTokenQuery.result?.success &&
+                  <div>
+                    <div>Welcome Back {sendJWTTokenQuery.result?.username}</div>
+                    <button className={`${buttonShadowEffect} w-2/5 bg-white shadow-[4px_4px_0px_0px_#c2c2c2] hover:shadow-[2px_2px_0px_0px_#c2c2c2] px-6 py-3 rounded-md text-black font-bold`}>Open Chat</button>
+                  </div>
+                }
+            
               <div>Converse is free to try for as long as you want!</div>
             </div>
 

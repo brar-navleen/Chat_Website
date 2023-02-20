@@ -3,7 +3,7 @@ import cors from 'cors'
 import { PrismaClient } from '@prisma/client'
 import bodyParser from 'body-parser'
 import jsonWebToken from 'jsonwebtoken'
-import {expressjwt,  Request as JWTRequest} from 'express-jwt'
+import { expressjwt, Request as JWTRequest } from 'express-jwt'
 
 const prisma = new PrismaClient()
 
@@ -76,7 +76,7 @@ app.post('/codeForvalidatingUser', async (_req, _res) => {
     if (userExists.length) {
       _res.status(200).json({
         success: true,
-        token: jsonWebToken.sign({userEmail}, jwtSecret,  { expiresIn: '1 day' })
+        token: jsonWebToken.sign({ userEmail }, jwtSecret, { expiresIn: '7d' })
       })
     }
     else {
@@ -88,7 +88,7 @@ app.post('/codeForvalidatingUser', async (_req, _res) => {
       _res.status(200).json({
         success: true,
         isNewUser: true,
-        token: jsonWebToken.sign({userEmail}, jwtSecret,  { expiresIn: '1 day' })
+        token: jsonWebToken.sign({ userEmail }, jwtSecret, { expiresIn: '7d' })
       })
     }
   } else {
@@ -135,13 +135,26 @@ app.put('/sendUserProfileDetails', async (_req, _res) => {
 })
 
 app.get('/user', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
-function (req: JWTRequest, res: express.Response) {
-  console.log(req)
-  console.log(req.auth.userEmail)
-  // const userEmail = req.auth.userEmail
-  // console.log(userEmail)
-  res.sendStatus(200);
-}
+  async (_req: JWTRequest, _res: express.Response) => {
+    const userDetails = await prisma.user.findMany({
+      where: {
+        email: _req.auth.userEmail
+      }
+    }
+    )
+    if (userDetails.length) {
+      _res.status(200).json({
+        success: true,
+        username: userDetails[0].firstName
+      })
+      return
+    } else {
+      _res.status(404).json({
+        success: false,
+      })
+      return
+    }
+  }
 )
 
 app.listen(port, () => {
