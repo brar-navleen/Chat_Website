@@ -29,7 +29,7 @@ const usersEmailAndVerficationCode = {
 app.get('/workspaceDetails', (_req, _res) => {
   _res.send(JSON.stringify(
     {
-      displayName: "Aman",
+      // displayName: "Aman",
       // displayChannels: [
       //   { name: "general" },
       //   { name: "random" },

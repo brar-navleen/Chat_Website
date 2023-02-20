@@ -83,8 +83,8 @@ export const MessageBoard = () => {
         <TopBar userChannelAndDirectMsgDetails={userChannelAndDirectMsgDetails.result} />
         <div className="flex h-full">
           <div className="bg-cyan-700 w-1/5">
-            <UserChannels userChannelAndDirectMsgDetails={userChannelAndDirectMsgDetails.result} />
-            <UserDirectMessages userChannelAndDirectMsgDetails={userChannelAndDirectMsgDetails.result} />
+            <UserChannels />
+            <UserDirectMessages />
           </div>
 
           <div className="flex flex-1 p-4 flex-col justify-end items-center gap-4">
