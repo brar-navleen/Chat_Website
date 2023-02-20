@@ -25,45 +25,6 @@ const usersEmailAndVerficationCode = {
 
 }
 
-
-app.get('/workspaceDetails', (_req, _res) => {
-  _res.send(JSON.stringify(
-    {
-      // displayName: "Aman",
-      // displayChannels: [
-      //   { name: "general" },
-      //   { name: "random" },
-      //   { name: "project" }
-      // ],
-      // listOfPeopleDirectMsgIsSentTo: [
-      //   {
-      //     id: 1,
-      //     usersInvolved: [
-      //       {
-      //         id: 1,
-      //         name: 'Navleen'
-      //       },
-      //       {
-      //         id: 2,
-      //         name: 'Satnam'
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     id: 2,
-      //     usersInvolved: [
-      //       {
-      //         id: 1,
-      //         name: 'Ravleen'
-      //       },
-      //     ]
-      //   }
-      // ]
-    }
-  )
-  )
-})
-
 app.post('/codeForvalidatingUser', async (_req, _res) => {
   const { verificationCode, userEmail } = _req.body
   if (verificationCode === usersEmailAndVerficationCode[userEmail]) {
