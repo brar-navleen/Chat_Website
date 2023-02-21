@@ -4,7 +4,7 @@ import { useAsyncCallback } from 'react-async-hook'
 import { AddChannels } from "./AddChannels"
 
 const sendJWTTokenToServer = async(token: any) => {
-  const response = await fetch('http://localhost:3000/channels', {
+  const response = await fetch('http://localhost:3000/user/channels', {
     method: 'GET',
     headers: {
       "Authorization": `Bearer ${token}`

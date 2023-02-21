@@ -3,7 +3,7 @@ import { WorkspaceUserDetails } from "../types"
 import { useAsyncCallback } from 'react-async-hook'
 
 const sendJWTTokenToServer = async(token: any) => {
-  const response = await fetch('http://localhost:3000/directMessages', {
+  const response = await fetch('http://localhost:3000/user/directMessages', {
     method: 'GET',
     headers: {
       "Authorization": `Bearer ${token}`
