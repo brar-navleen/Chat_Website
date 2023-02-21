@@ -1,7 +1,23 @@
 import { useEffect, useState } from "react";
+import { useAsyncCallback } from "react-async-hook";
+
+const sendNewTeammatesAddedByUserToServer = async (newTeammateEmail: string) => {
+  await fetch('http://localhost:3000/user/directMessages', {
+    method: 'PUT',
+    body: JSON.stringify({
+      newTeammateEmail: newTeammateEmail
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+}
 
 export const AddTeammates = () => {
   const [showModal, setShowModal] = useState(false);
+  const[newTeammateEmail, setNewTeammateEmail] = useState<string>('')
+
+  const sendEmailOfTeammateToBeAddedQuery = useAsyncCallback(sendNewTeammatesAddedByUserToServer)
 
   useEffect(() => {
     document.body.addEventListener('click', () => { setShowModal(false) })
@@ -41,7 +57,7 @@ export const AddTeammates = () => {
               <div className="flex flex-col gap-6 text-black p-12">
                 <div>
                   <div>To:</div>
-                  <textarea className="p-2 w-full rounded-md border border-black h-32" placeholder="# e.g. track-bugs"></textarea>
+                  <textarea onChange={(e) => setNewTeammateEmail(e.target.value)} className="p-2 w-full rounded-md border border-black h-32" placeholder="# e.g. track-bugs"></textarea>
                 </div>
               </div>
 
@@ -49,7 +65,11 @@ export const AddTeammates = () => {
                 <button
                   className="text-black bg-slate-200 font-bold uppercase text-sm px-4 py-1.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                   type="button"
-                  onClick={() => setShowModal(false)}
+                  onClick={() => {
+                    setShowModal(false)
+                    sendEmailOfTeammateToBeAddedQuery.execute(newTeammateEmail)
+                  
+                  }}
                 >
                   Send
                 </button>

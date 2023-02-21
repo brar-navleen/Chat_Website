@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAsyncCallback } from "react-async-hook";
 
 const sendNewChannelAddedByUserDetailsToServer = async (newAddedChannel: string, newChannelDescription: string) => {
-  await fetch('http://localhost:3000/user/addChannel', {
+  await fetch('http://localhost:3000/user/channels', {
     method: 'PUT',
     body: JSON.stringify({
       channelName: newAddedChannel,

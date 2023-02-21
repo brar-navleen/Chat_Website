@@ -126,7 +126,7 @@ app.get('/user/channels', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] 
     })
   })
 
-app.put('/user/addChannel', async (_req, _res) => {
+app.put('/user/channels', async (_req, _res) => {
   const { channelname, channelDescription, channelId, user } = _req.body
 
 })
@@ -160,6 +160,11 @@ app.get('/user/directMessages', expressjwt({ secret: jwtSecret, algorithms: ["HS
         }
       ]
     })
+  })
+
+  app.put('/user/directMessages', async (_req, _res) => {
+    const { channelname, channelDescription, channelId, user } = _req.body
+  
   })
 
 app.listen(port, () => {
