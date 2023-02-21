@@ -35,7 +35,7 @@ export const UserChannels = () => {
       {sendJWTTokenQuery.result?.displayChannels && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
         <div>
           <div className="flex gap-1 items-center mt-6">
-            <span onClick={() => showChannels()} className={`material-symbols-rounded ${displayChannels ? '' : 'transform -rotate-90'} hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md`}>
+            <span onClick={() => showChannels()} className={`material-symbols-rounded ${displayChannels ? '' : 'transform -rotate-90'} text-[32px] hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md`}>
               arrow_drop_down
             </span>
             <div className="hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">CHANNELS</div>
