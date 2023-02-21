@@ -1,13 +1,34 @@
 import e from "express";
 import { useEffect, useState } from "react";
+import { useAsyncCallback } from "react-async-hook";
+
+const sendNewChannelAddedByUserDetailsToServer = async (newAddedChannel: string, newChannelDescription: string) => {
+  await fetch('http://localhost:3000/user/addChannel', {
+    method: 'PUT',
+    body: JSON.stringify({
+      channelName: newAddedChannel,
+      channelDesription: newChannelDescription,
+      channelId: 0,
+      userId: 1
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+}
+
 
 export const AddChannels = () => {
 
   const [showModal, setShowModal] = useState(false);
+  const[newChannelName, setNewChannelName] = useState<string>('')
+  const[newChannelDescription, setNewChannelDescription] = useState<string>('')
 
   useEffect(() => {
     document.body.addEventListener('click', () => {setShowModal(false)})
   },[])
+
+  const newChannelAddedByUserQuery = useAsyncCallback(sendNewChannelAddedByUserDetailsToServer)
 
   return (
     <>
@@ -43,12 +64,12 @@ export const AddChannels = () => {
               <div className="flex flex-col gap-6 text-black p-12">
                 <div>
                   <div>Name</div>
-                  <input className="p-2 w-full rounded-md border border-black" placeholder="# e.g. track-bugs"></input>
+                  <input onChange={(e) => setNewChannelName(e.target.value)} className="p-2 w-full rounded-md border border-black" placeholder="# e.g. track-bugs"></input>
                 </div>
 
                 <div>
                   <div>Description</div>
-                  <input className="p-2 w-full rounded-md border border-black"></input>
+                  <input onChange={(e) => setNewChannelDescription(e.target.value)} className="p-2 w-full rounded-md border border-black"></input>
                   <div className="text-xs">What's this channel about?</div>
                 </div>
 
@@ -65,7 +86,11 @@ export const AddChannels = () => {
                 <button
                   className="text-white bg-yellow-600 active:bg-yellow-700 font-bold uppercase text-sm px-4 py-1.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                   type="button"
-                  onClick={() => setShowModal(false)}
+                  onClick={() => {
+                    setShowModal(false)
+                    newChannelAddedByUserQuery.execute(newChannelName, newChannelDescription)
+                  
+                  }}
                 >
                   Create
                 </button>
