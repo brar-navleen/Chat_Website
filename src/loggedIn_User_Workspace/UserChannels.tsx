@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { WorkspaceUserDetails } from "../types"
 import { useAsyncCallback } from 'react-async-hook'
+import { AddChannels } from "./AddChannels"
 
 const sendJWTTokenToServer = async(token: any) => {
   const response = await fetch('http://localhost:3000/channels', {
@@ -43,6 +44,7 @@ export const UserChannels = () => {
             # {channel.name}
           </div>
           )}
+          <AddChannels/>
         </div>
       </div>
       }
