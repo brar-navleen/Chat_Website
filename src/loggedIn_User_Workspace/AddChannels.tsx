@@ -11,7 +11,7 @@ export const AddChannels = () => {
         <span onClick={() => setShowModal(true)} className="material-symbols-rounded hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">
           add
         </span>
-        <div className=" hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">Add Channels</div>
+        <div onClick={() => setShowModal(true)} className=" hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">Add Channels</div>
 
         {showModal && <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
           <div className="relative w-2/5 my-6 mx-auto max-w-3xl">
