@@ -115,6 +115,8 @@ app.get('/user', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
   }
 )
 
+
+
 app.get('/user/channels', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
   async (_req: JWTRequest, _res: express.Response) => {
     _res.json({
@@ -130,6 +132,24 @@ app.put('/user/channels', async (_req, _res) => {
   const { channelname, channelDescription, channelId, user } = _req.body
 
 })
+
+app.post('/channels', async (_req, _res) => {
+  const { channelname } = _req.body
+  const addChannel = await prisma.channel.create({
+    data: {
+      name: channelname,
+      //description: '',
+      users: {
+        connect: [
+          { id: 0 },
+          { id: 1 },
+          { email: 'nav@g.com' },
+        ]
+      }
+    }
+  })
+
+} )
 
 app.get('/user/directMessages', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
   async (_req: JWTRequest, _res: express.Response) => {

@@ -17,6 +17,17 @@ const sendNewChannelAddedByUserDetailsToServer = async (newAddedChannel: string,
   })
 }
 
+const createNewChannelAddedByUser = async (channelName: string) => {
+  await fetch('http://localhost:3000/channels', {
+    method: 'POST',
+    body: JSON.stringify({
+      channelName: channelName
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+}
 
 export const AddChannels = () => {
 
@@ -29,6 +40,8 @@ export const AddChannels = () => {
   },[])
 
   const newChannelAddedByUserQuery = useAsyncCallback(sendNewChannelAddedByUserDetailsToServer)
+
+  const createNewChannelAddedByUserQuery = useAsyncCallback(createNewChannelAddedByUser)
 
   return (
     <>
@@ -89,7 +102,7 @@ export const AddChannels = () => {
                   onClick={() => {
                     setShowModal(false)
                     newChannelAddedByUserQuery.execute(newChannelName, newChannelDescription)
-                  
+                    createNewChannelAddedByUserQuery.execute(newChannelName)
                   }}
                 >
                   Create
