@@ -20,7 +20,7 @@ const createNewChannelAddedByUser = async (channelName: string, channelDescripti
   return result
 }
 
-export const AddChannels = () => {
+export const AddChannels = (prop: any) => {
 
   const [showModal, setShowModal] = useState(false);
   const [newChannelName, setNewChannelName] = useState<string>('')

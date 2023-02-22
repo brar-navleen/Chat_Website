@@ -117,13 +117,15 @@ app.get('/user', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
 
 app.get('/user/channels', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
   async (_req: JWTRequest, _res: express.Response) => {
-    _res.json({
-      displayChannels: [
-        { name: "general" },
-        { name: "random" },
-        { name: "project" }
-      ],
+    const userChannels = await prisma.user.findMany({
+      where:{
+        email: _req.auth.userEmail
+      },
+      include: {
+        channels: true
+      }
     })
+    _res.json(userChannels[0].channels)
   })
 
 app.put('/user/channels', async (_req, _res) => {
