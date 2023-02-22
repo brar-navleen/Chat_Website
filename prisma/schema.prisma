@@ -11,8 +11,8 @@ datasource db {
 }
 
 model User {
-  id        Int             @id @default(autoincrement())
-  email     String          @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   firstName String?
   lastName  String?
   username  String?
@@ -27,8 +27,8 @@ model Message {
 }
 
 model Channel {
-  id          Int             @id @default(autoincrement())
-  name        String
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
   description String?
   users       User[]
 }

@@ -99,9 +99,9 @@ app.get('/user', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
     const userDetails = await prisma.user.findMany({
       where: {
         email: _req.auth.userEmail
-      }
-    }
-    )
+      },
+    })
+
     if (userDetails.length) {
       _res.status(200).json({
         success: true,
@@ -114,8 +114,6 @@ app.get('/user', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
     }
   }
 )
-
-
 
 app.get('/user/channels', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
   async (_req: JWTRequest, _res: express.Response) => {
@@ -133,23 +131,21 @@ app.put('/user/channels', async (_req, _res) => {
 
 })
 
-app.post('/channels', async (_req, _res) => {
-  const { channelname } = _req.body
-  const addChannel = await prisma.channel.create({
-    data: {
-      name: channelname,
-      //description: '',
-      users: {
-        connect: [
-          { id: 0 },
-          { id: 1 },
-          { email: 'nav@g.com' },
-        ]
+app.post('/channels', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
+  async (_req: JWTRequest, _res: express.Response) => {
+    const { channelname, channelDescription } = _req.body
+    const addChannel = await prisma.channel.create({
+      data: {
+        name: channelname,
+        description: channelDescription,
+        users: {
+          connect: [
+            { email: _req.auth.userEmail },
+          ]
+        }
       }
-    }
+    })
   })
-
-} )
 
 app.get('/user/directMessages', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
   async (_req: JWTRequest, _res: express.Response) => {
@@ -182,10 +178,10 @@ app.get('/user/directMessages', expressjwt({ secret: jwtSecret, algorithms: ["HS
     })
   })
 
-  app.put('/user/directMessages', async (_req, _res) => {
-    const { channelname, channelDescription, channelId, user } = _req.body
-  
-  })
+app.put('/user/directMessages', async (_req, _res) => {
+  const { channelname, channelDescription, channelId, user } = _req.body
+
+})
 
 app.listen(port, () => {
   console.log(`TypeScript with Express

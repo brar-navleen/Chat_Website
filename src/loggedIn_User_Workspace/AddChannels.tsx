@@ -2,29 +2,17 @@ import e from "express";
 import { useEffect, useState } from "react";
 import { useAsyncCallback } from "react-async-hook";
 
-const sendNewChannelAddedByUserDetailsToServer = async (newAddedChannel: string, newChannelDescription: string) => {
-  await fetch('http://localhost:3000/user/channels', {
-    method: 'PUT',
-    body: JSON.stringify({
-      channelName: newAddedChannel,
-      channelDesription: newChannelDescription,
-      channelId: 0,
-      userId: 1
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  })
-}
-
-const createNewChannelAddedByUser = async (channelName: string) => {
+const createNewChannelAddedByUser = async (channelName: string, channelDescription: string) => {
+  const token = localStorage.getItem('token')
   await fetch('http://localhost:3000/channels', {
     method: 'POST',
     body: JSON.stringify({
-      channelName: channelName
+      channelName: channelName,
+      channelDescription: channelDescription
     }),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${token}`
     },
   })
 }
@@ -33,15 +21,13 @@ export const AddChannels = () => {
 
   const [showModal, setShowModal] = useState(false);
   const[newChannelName, setNewChannelName] = useState<string>('')
-  const[newChannelDescription, setNewChannelDescription] = useState<string>('')
+  const[newAddedChannelDescription, setNewAddedChannelDescription] = useState<string>('')
+
+  const createNewChannelAddedByUserQuery = useAsyncCallback(createNewChannelAddedByUser)
 
   useEffect(() => {
     document.body.addEventListener('click', () => {setShowModal(false)})
   },[])
-
-  const newChannelAddedByUserQuery = useAsyncCallback(sendNewChannelAddedByUserDetailsToServer)
-
-  const createNewChannelAddedByUserQuery = useAsyncCallback(createNewChannelAddedByUser)
 
   return (
     <>
@@ -82,7 +68,7 @@ export const AddChannels = () => {
 
                 <div>
                   <div>Description</div>
-                  <input onChange={(e) => setNewChannelDescription(e.target.value)} className="p-2 w-full rounded-md border border-black"></input>
+                  <input onChange={(e) => setNewAddedChannelDescription(e.target.value)} className="p-2 w-full rounded-md border border-black"></input>
                   <div className="text-xs">What's this channel about?</div>
                 </div>
 
@@ -101,8 +87,7 @@ export const AddChannels = () => {
                   type="button"
                   onClick={() => {
                     setShowModal(false)
-                    newChannelAddedByUserQuery.execute(newChannelName, newChannelDescription)
-                    createNewChannelAddedByUserQuery.execute(newChannelName)
+                    createNewChannelAddedByUserQuery.execute(newChannelName, newAddedChannelDescription)
                   }}
                 >
                   Create
