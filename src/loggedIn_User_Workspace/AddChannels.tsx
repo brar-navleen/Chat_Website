@@ -4,7 +4,7 @@ import { useAsyncCallback } from "react-async-hook";
 
 const createNewChannelAddedByUser = async (channelName: string, channelDescription: string) => {
   const token = localStorage.getItem('token')
-  await fetch('http://localhost:3000/channels', {
+  const response = await fetch('http://localhost:3000/channels', {
     method: 'POST',
     body: JSON.stringify({
       channelName: channelName,
@@ -15,19 +15,24 @@ const createNewChannelAddedByUser = async (channelName: string, channelDescripti
       "Authorization": `Bearer ${token}`
     },
   })
+
+  const result = await response.json()
+  return result
 }
 
 export const AddChannels = () => {
 
   const [showModal, setShowModal] = useState(false);
-  const[newChannelName, setNewChannelName] = useState<string>('')
-  const[newAddedChannelDescription, setNewAddedChannelDescription] = useState<string>('')
+  const [newChannelName, setNewChannelName] = useState<string>('')
+  const [newAddedChannelDescription, setNewAddedChannelDescription] = useState<string>('')
 
   const createNewChannelAddedByUserQuery = useAsyncCallback(createNewChannelAddedByUser)
 
+  console.log(createNewChannelAddedByUserQuery.result)
+
   useEffect(() => {
-    document.body.addEventListener('click', () => {setShowModal(false)})
-  },[])
+    document.body.addEventListener('click', () => { setShowModal(false) })
+  }, [])
 
   return (
     <>
@@ -35,18 +40,18 @@ export const AddChannels = () => {
         <span onClick={(e) => {
           setShowModal(true)
           e.stopPropagation()
-        }} 
+        }}
           className="material-symbols-rounded hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">
           add
         </span>
         <div onClick={(e) => {
           setShowModal(true)
           e.stopPropagation()
-      }} 
-        className=" hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">Add Channels</div>
+        }}
+          className=" hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">Add Channels</div>
 
         {showModal && <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-          <div onClick={(e) => e.stopPropagation() }  className="relative w-2/5 my-6 mx-auto max-w-3xl">
+          <div onClick={(e) => e.stopPropagation()} className="relative w-2/5 my-6 mx-auto max-w-3xl">
             <div className="rounded-lg shadow-lg relative flex flex-col w-full">
               <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
                 <div className="text-3xl font-semibold text-cyan-700">Create a new channel</div>
