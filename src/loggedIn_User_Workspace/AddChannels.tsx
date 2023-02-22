@@ -34,6 +34,13 @@ export const AddChannels = (prop: any) => {
     document.body.addEventListener('click', () => { setShowModal(false) })
   }, [])
 
+  useEffect(() => {
+    if(createNewChannelAddedByUserQuery.status === "success"){
+      prop.userChannel()
+    }
+
+  }, [createNewChannelAddedByUserQuery.status])
+
   return (
     <>
       <div className="flex items-center gap-2">

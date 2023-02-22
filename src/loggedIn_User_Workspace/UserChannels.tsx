@@ -3,7 +3,7 @@ import { WorkspaceUserDetails } from "../types"
 import { useAsyncCallback } from 'react-async-hook'
 import { AddChannels } from "./AddChannels"
 
-const sendJWTTokenToServer = async (token: any) => {
+const getUserChannelsFromServer = async (token: any) => {
   const response = await fetch('http://localhost:3000/user/channels', {
     method: 'GET',
     headers: {
@@ -17,10 +17,9 @@ const sendJWTTokenToServer = async (token: any) => {
 
 export const UserChannels = () => {
   
+  const [displayChannels, setDisplayChannels] = useState<boolean>(true)
 
-  const [displayChannels, setDisplayChannels] = useState<boolean>(false)
-
-  const sendJWTTokenQuery = useAsyncCallback(sendJWTTokenToServer)
+  const query = useAsyncCallback(getUserChannelsFromServer)
 
   const showChannels = () => {
     setDisplayChannels(prev => !prev)
@@ -28,14 +27,14 @@ export const UserChannels = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    sendJWTTokenQuery.execute(token)
+    query.execute(token)
   }, [])
 
-  console.log(sendJWTTokenQuery.result)
+  console.log(query.result)
 
   return (
     <>
-      {sendJWTTokenQuery.result && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
+      {query.result && <div className=" w-4/5 flex flex-col gap-6 p-2 text-white">
         <div>
           <div className="flex gap-1 items-center mt-6">
             <span onClick={() => showChannels()} className={`material-symbols-rounded ${displayChannels ? '' : 'transform -rotate-90'} text-[32px] hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md`}>
@@ -43,11 +42,13 @@ export const UserChannels = () => {
             </span>
             <div className="hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur px-1.5 py-0.5 rounded-md">CHANNELS</div>
           </div>
-          {displayChannels && sendJWTTokenQuery?.result.map((channel: any, i: any) => <div className="ml-2 px-1.5 py-0.5 hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md" key={i}>
+          {displayChannels && query?.result.map((channel: any, i: any) => <div className="ml-2 px-1.5 py-0.5 hover: cursor-pointer hover:bg-[#ffffff30] hover:backdrop-blur rounded-md" key={i}>
             # {channel.name}
           </div>
           )}
-          <AddChannels />
+          <AddChannels userChannel = {() => {
+            const token = localStorage.getItem('token')
+            query.execute(token)}}/>
         </div>
       </div>
       }
