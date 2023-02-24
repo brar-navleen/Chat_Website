@@ -1,3 +1,4 @@
+import { ResultType } from "@remix-run/router/dist/utils";
 import { useEffect, useState } from "react";
 import { useAsyncCallback } from "react-async-hook";
 
@@ -13,15 +14,37 @@ const sendNewTeammatesAddedByUserToServer = async (newTeammateEmail: string) => 
   })
 }
 
+const getUsersFromServer = async (token: any) => {
+  const response = await fetch('http://localhost:3000/users', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${token}`
+    },
+  })
+
+  const result = await response.json()
+  console.log({ result })
+  return result
+}
+
 export const AddTeammates = () => {
   const [showModal, setShowModal] = useState(false);
-  const[newTeammateEmail, setNewTeammateEmail] = useState<string>('')
 
   const sendEmailOfTeammateToBeAddedQuery = useAsyncCallback(sendNewTeammatesAddedByUserToServer)
+  const getAllUsersQuery = useAsyncCallback(getUsersFromServer)
+
 
   useEffect(() => {
     document.body.addEventListener('click', () => { setShowModal(false) })
   }, [])
+
+  useEffect(() => {
+    if (showModal) {
+      const token = localStorage.getItem('token')
+      getAllUsersQuery.execute(token)
+    }
+  }, [showModal])
 
   return (
     <>
@@ -43,7 +66,7 @@ export const AddTeammates = () => {
           <div onClick={(e) => e.stopPropagation()} className="relative w-2/5 my-6 mx-auto max-w-3xl">
             <div className="rounded-lg shadow-lg relative flex flex-col w-full">
               <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
-                <div className="text-3xl font-semibold text-cyan-700">Invite people to your workspace</div>
+                <div className="text-3xl font-semibold text-cyan-700">Send Direct Messages To:</div>
                 <button
                   className="bg-transparent border-0 text-black float-right"
                   onClick={() => setShowModal(false)}
@@ -54,11 +77,15 @@ export const AddTeammates = () => {
                 </button>
               </div>
 
-              <div className="flex flex-col gap-6 text-black p-12">
-                <div>
-                  <div>To:</div>
-                  <textarea onChange={(e) => setNewTeammateEmail(e.target.value)} className="p-2 w-full rounded-md border border-black h-32" placeholder="# e.g. track-bugs"></textarea>
-                </div>
+              <div className="overflow-auto">
+                {getAllUsersQuery.status === 'success' && getAllUsersQuery.result.map((user: any, i: number) =>
+                  <div className="flex flex-col text-black px-5 py-1">
+                    <div className="flex gap-2">
+                      <span className="hover:cursor-pointer material-symbols-rounded">check_box_outline_blank</span>
+                      <div>{user.firstName} {user.lastName}</div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -67,8 +94,9 @@ export const AddTeammates = () => {
                   type="button"
                   onClick={() => {
                     setShowModal(false)
-                    sendEmailOfTeammateToBeAddedQuery.execute(newTeammateEmail)
-                  
+
+
+
                   }}
                 >
                   Send

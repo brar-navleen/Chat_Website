@@ -186,6 +186,12 @@ app.put('/user/directMessages', async (_req, _res) => {
 
 })
 
+app.get('/users', expressjwt({ secret: jwtSecret, algorithms: ["HS256"] }),
+async(_req: JWTRequest, _res: express.Response) => {
+  const users = await prisma.user.findMany()
+  _res.json(users)
+})
+
 app.listen(port, () => {
   console.log(`TypeScript with Express
        http://localhost:${port}/`)
